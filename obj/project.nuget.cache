@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "N3bzWo1k0kCuFP9zf55brHNsUqPIp/S2AWgiyZcnKEUpG2OcIVAGQ3EPD/vghfvh9zfG1PQt3gkbG9nmpV4/Mg==",
+  "success": true,
+  "projectFilePath": "C:\\Cortex\\v2\\CortexCMS\\CortexCMS.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\caket\\.nuget\\packages\\mimemapping\\1.0.1.37\\mimemapping.1.0.1.37.nupkg.sha512",
+    "C:\\Users\\caket\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\5.0.7\\microsoft.netcore.app.runtime.win-x64.5.0.7.nupkg.sha512",
+    "C:\\Users\\caket\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\5.0.7\\microsoft.windowsdesktop.app.runtime.win-x64.5.0.7.nupkg.sha512",
+    "C:\\Users\\caket\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\5.0.7\\microsoft.aspnetcore.app.runtime.win-x64.5.0.7.nupkg.sha512"
+  ],
+  "logs": []
+}
