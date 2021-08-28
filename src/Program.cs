@@ -14,8 +14,6 @@ using CortexCMS.Pages;
 
 namespace CortexCMS {
     class Program {
-        private static string prefix = "http://localhost:8080/";
-
         private static string directory = @"C:\Cortex\v2\CortexCMS\src\Web";
 
         private static List<IPage> pages = new List<IPage>() {
@@ -25,12 +23,12 @@ namespace CortexCMS {
         public static void Main() {
             HttpListener listener = new HttpListener();
 
-            listener.Prefixes.Add(prefix);
+            listener.Prefixes.Add("http://localhost:8080/");
             listener.Prefixes.Add("http://cortex5.io:80/");
 
             listener.Start();
             
-            Console.WriteLine($"Listening for connections on {prefix}");
+            Console.WriteLine($"Listening for connections!");
 
             while(true) {
                 HttpListenerContext context = listener.GetContext();
