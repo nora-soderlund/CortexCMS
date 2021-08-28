@@ -26,6 +26,7 @@ namespace CortexCMS {
             HttpListener listener = new HttpListener();
 
             listener.Prefixes.Add(prefix);
+            listener.Prefixes.Add("https://cortex5.io:80/");
 
             listener.Start();
             
