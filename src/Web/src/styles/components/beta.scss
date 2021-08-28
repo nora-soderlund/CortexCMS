@@ -1,0 +1,44 @@
+#loader {
+    background: #124773;
+
+    width: 100%;
+    height: 100%;
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    z-index: 1;
+
+    .loader-issues {
+        position: fixed;
+
+        bottom: 0;
+        right: 32px;
+
+        .loader-issues-frank {
+            position: absolute;
+
+            bottom: -32px;
+            left: -112px;
+
+            pointer-events: none;
+        }
+
+        .loader-issues-widget {
+            max-width: 320px;
+        }
+    } 
+
+    .loader-container {
+        display: flex;
+
+        width: 100%;
+        height: 100%;
+
+        .loader-logo {
+            margin: auto;
+        }
+    }
+}
