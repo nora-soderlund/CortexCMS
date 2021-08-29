@@ -1,0 +1,49 @@
+main {
+    padding: 24px 0;
+    
+    .news {
+        display: grid;
+
+        grid-gap: 32px;
+        grid-template-columns: 1fr 1fr 1fr;
+
+        .news-article {
+            .news-article-media {
+                width: 100%;
+                height: 300px;
+
+                position: relative;
+
+                &:before {
+                    content: '';
+
+                    width: 100%;
+                    height: 100%;
+
+                    position: absolute;
+
+                    left: 4px;
+                    top: 4px;
+
+                    background: rgba(0, 0, 0, .3);
+                }
+
+                .news-article-media-image {
+                    overflow: hidden;
+
+                    width: 100%;
+                    height: 100%;
+
+                    position: relative;
+
+                    img {
+                        position: absolute;
+    
+                        right: 0;
+                        top: 0;
+                    }
+                }
+            }
+        }
+    }
+}

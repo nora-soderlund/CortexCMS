@@ -11,16 +11,18 @@
 
     z-index: 1;
 
-    .loader-issues {
-        position: fixed;
+    overflow: hidden;
 
-        bottom: 0;
+    .loader-issues {
+        position: absolute;
+
+        bottom: 16px;
         right: 32px;
 
         .loader-issues-frank {
             position: absolute;
 
-            bottom: -32px;
+            bottom: -48px;
             left: -112px;
 
             pointer-events: none;

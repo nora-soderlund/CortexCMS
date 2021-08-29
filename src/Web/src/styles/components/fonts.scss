@@ -4,6 +4,11 @@
 }
 
 @font-face {
+    font-family: "Ubuntu Condensed";
+    src: url("/fonts/Ubuntu-Condensed.ttf");
+}
+
+@font-face {
     font-family: "Ubuntu Italic";
     src: url("/fonts/Ubuntu-Italic.ttf");
 }
@@ -36,4 +41,33 @@
 @font-face {
     font-family: "Ubuntu Bold Italic";
     src: url("/fonts/Ubuntu-BoldItalic.ttf");
+}
+
+h1, h2, h3 {
+    text-shadow: 0 1px rgb(0 0 0 / 30%);
+
+    color: #FFF;
+    
+    font-weight: normal;
+    font-family: "Ubuntu Condensed";
+    
+    text-transform: uppercase;
+
+    margin: 16px 0;
+
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: 32px;
+
+    margin: 32px 0;
+}
+
+h2 {
+    font-size: 24px;
+}
+
+p {
+    margin: 0;
 }

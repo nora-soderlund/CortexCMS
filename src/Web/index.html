@@ -41,11 +41,90 @@
         <section id="page">
             <header>
                 <div class="container">
-                    <img class="logo" src="/images/logos/large.png">
+                    <div class="hotel"></div>
+
+                    <div class="invite">
+                        <h1>REGISTER TO ENTER THE<br>BETA WAITING LIST FOR FREE!</h1>
+                        
+                        <a class="button" href="/register"><h1>REGISTER FOR FREE!</h1></a>
+                    </div>
+                </div>
+
+                <div class="login">
+                    <div class="container">
+                        <form action="/login" method="POST">
+                            <div class="login-inputs">
+                                <input type="text" placeholder="Name" autofocus>
+                                <input type="password" placeholder="Password">
+                            </div>
+
+                            <button type="submit" class="login-button button button-blue">Log in</button>
+
+                            <a class="login-forgotten" href="/login/reset">I want to reset my password</a>
+                        </form>
+                    </div>
                 </div>
             </header>
-            <nav></nav>
-            <main></main>
+            
+            <nav>
+                <div class="container">
+                    <a href="/"><img class="logo" src="/images/logos/medium.png"></a>
+                
+                    <ul>
+                        <a href="/"><li class="home"><h2>Home</h2></li></a>
+                        <a href="/community"><li class="community"><h2>Community</h2></li></a>
+                        <a href="/about"><li class="about"><h2>About Us</h2></li></a>
+
+                        <div class="nav-right">
+                            <a href="/discord" target="_blank"><li class="discord"><h2>Discord</h2></li></a>
+                        </div>
+                    </ul>
+                </div>
+            </nav>
+
+            <main>
+                <div class="container">
+                    <div class="news">
+                        <div class="news-article">
+                            <div class="news-article-media">
+                                <div class="news-article-media-image">
+                                    <img src="/images/news/archive/DE_Promo_Marchen.png">
+                                </div>
+                            </div>
+
+                            <h2>Summer has come and gone!</h2>
+
+                            <p>Check out some of the most memorable moments from this summer...</p>
+                        </div>
+                        
+                        <div class="news-article">
+                            <div class="news-article-media">
+                                <div class="news-article-media-image">
+                                    <img src="/images/news/archive/Furnimatic_Large_webpromo.png">
+                                </div>
+                            </div>
+
+                            <h2>Furnimatic is here!</h2>
+
+                            <p>Check out these awesome new furnitures in the Furnimatic line!</p>
+                        </div>
+
+                        <div class="news-article">
+                            <div class="news-article-media">
+                                <div class="news-article-media-image">
+                                    <img src="/images/news/archive/lpromo_army15_assaultcourse.png">
+                                </div>
+                            </div>
+
+                            <h2>Veterans Day Special Event</h2>
+
+                            <p>Complete this assault course to receive an unique badge in memorial of fallen veterans!</p>
+                        </div>
+                    </div>
+
+                    <h3><a class="container-link" href="/community/news">More news</a></h3>
+                </div>
+            </main>
         </section>
 
         <script type="text/javascript" src="/scripts/loader.js"></script>

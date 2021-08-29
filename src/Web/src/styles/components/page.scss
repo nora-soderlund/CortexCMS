@@ -1,4 +1,8 @@
 #page {
+    height: 100%;
+    width: 100%;
+
     @import "page/header";
     @import "page/nav";
+    @import "page/main";
 }
