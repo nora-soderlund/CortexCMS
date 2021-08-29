@@ -14,17 +14,15 @@ using CortexCMS.Pages;
 
 namespace CortexCMS {
     class Program {
-        private static string directory = @"C:\Cortex\v2\CortexCMS\src\Web";
+        public static string Directory = @"C:\Cortex\v2\CortexCMS\src\Web";
 
-        private static List<IPage> pages = new List<IPage>() {
-            { new Pages.Public.Index() }
-        };
+        public static string Database = "server=127.0.0.1;uid=root;database=cortex;SslMode=none";
 
         public static void Main() {
             HttpListener listener = new HttpListener();
 
             listener.Prefixes.Add("http://localhost:8080/");
-            listener.Prefixes.Add("http://cortex5.io:80/");
+            //listener.Prefixes.Add("http://cortex5.io:80/");
 
             listener.Start();
             
@@ -33,116 +31,66 @@ namespace CortexCMS {
             while(true) {
                 HttpListenerContext context = listener.GetContext();
                 
-                ThreadPool.QueueUserWorkItem(async (e) => {
-                    await HandleAsync(context);
+                ThreadPool.QueueUserWorkItem((e) => {
+                    HandleRequest(context);
                 });
             }
         }
 
-        public static async Task HandleAsync(HttpListenerContext context) {
+        public static void HandleRequest(HttpListenerContext context) {
             HttpListenerRequest request = context.Request;
             HttpListenerResponse response = context.Response;
-            
-            Console.WriteLine();
-
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("Handling new request");
-            Console.ResetColor();
-
-            Console.WriteLine(request.Url.ToString());
-            Console.WriteLine(request.HttpMethod);
-            Console.WriteLine(request.UserHostName);
-            Console.WriteLine(request.UserAgent);
-            Console.WriteLine();
-
-            Console.WriteLine(request.RawUrl);
-            Console.WriteLine(request.QueryString);
-
-            Console.WriteLine();
 
             try {
+                Console.WriteLine($"Receiving request from {request.RemoteEndPoint.Address} for {request.RawUrl}");
+                
+                Console.WriteLine();
+
                 string file = request.RawUrl.ToLower();
 
-                if(file == "/discord") {
+                string path = Path.Combine(new string[] { Directory, "public", file.Trim('/').Replace('/', '\\') });
+
+                if(file.Length == 1) {
+                    context.Response.Redirect("/index");
+                }
+                else if(File.Exists(path)) {
+                    Respond(context, File.ReadAllBytes(path), MimeMapping.MimeUtility.GetMimeMapping(path));
+                }
+                else if(file.LastIndexOf('.') != -1) {
+                    Respond(context, Encoding.UTF8.GetBytes("File Not Found"), "text/html", 404);
+                }
+                else if(file == "/discord") {
                     response.Redirect("https://discord.gg/PScuBzeydM");
-
-                    response.Close();
-
-                    return;
                 }
-
-                string path = Path.Combine(new string[] { directory, "public", file.Trim('/').Replace('/', '\\') });
-
-                if(File.Exists(path)) {
-                    HandleResponse(response, File.ReadAllBytes(path), MimeMapping.MimeUtility.GetMimeMapping(path));
-
-                    return;
+                else if(file.StartsWith("/api/")) {
+                    API.APIManager.Handle(context);
                 }
-
-                if(path.LastIndexOf('.') != -1) {
-                    response.StatusCode = 404;
-
-                    HandleResponse(response, Encoding.UTF8.GetBytes("<!DOCTYPE html><html><head><title>Oops - Project Cortex</title></head><body>File Not Found</body></html>"));
-
-                    return;
+                else if(request.HttpMethod == "GET") {
+                    Pages.PageManager.Handle(context);
                 }
-                
-                /*if(pages.Exists(x => x.Path == file)) {
-                    IPage page = pages.Find(x => x.Path == file);
-
-                    HandleResponse(response, Encoding.UTF8.GetBytes($"<!DOCTYPE><html><head>{page.GetHead()}</head><body>{page.GetBody()}</body></html>"));
-
-                    return;
-                }*/
-
-                path = Path.Combine(new string[] { directory, "index.html" });
-                
-                HandleResponse(response, File.ReadAllBytes(path), MimeMapping.MimeUtility.GetMimeMapping(path));
-                
-                return;
+                else {
+                    Respond(context, Encoding.UTF8.GetBytes("Not Implemented"), "text/html", 501);
+                }
             }
             catch(Exception exception) {
-                byte[] data = Encoding.UTF8.GetBytes("<!DOCTYPE>" +
-                    "<html>" +
-                    "  <head>" +
-                    "    <title>Oops!</title>" +
-                    "  </head>" +
-                    "  <body>" +
-                    "    Something went wrong!" +
-                    "  </body>" +
-                    "</html>");
+                Respond(context, Encoding.UTF8.GetBytes("Internal Server Error"), "text/html", 500);
 
-                response.ContentType = "text/html";
-                response.ContentEncoding = Encoding.UTF8;
-                response.ContentLength64 = data.LongLength;
-
-                // Write out to the response stream (asynchronously), then close it
-                await response.OutputStream.WriteAsync(data, 0, data.Length);
+                Console.WriteLine(exception.Message);
+                Console.WriteLine(exception.StackTrace);
             }
 
-            // If `shutdown` url requested w/ POST, then shutdown the server after serving the page
-            /*if ((req.HttpMethod == "POST") && (req.Url.AbsolutePath == "/shutdown"))
-            {
-                Console.WriteLine("Shutdown requested");
-                runServer = false;
-            }*/
-
-            // Make sure we don't increment the page views counter if `favicon.ico` is requested
-            //if (req.Url.AbsolutePath != "/favicon.ico")
-            //    pageViews += 1;
-
-            
             response.Close();
         }
 
-        public static void HandleResponse(HttpListenerResponse response, byte[] data, string contentType = "text/html") {
-            response.ContentType = contentType;
-            response.ContentEncoding = Encoding.UTF8;
-            response.ContentLength64 = data.LongLength;
+        public static void Respond(HttpListenerContext context, byte[] data, string contentType = "text/html", int status = 200) {
+            context.Response.StatusCode = status;
+            context.Response.ContentType = contentType;
+            context.Response.ContentEncoding = Encoding.UTF8;
+            context.Response.ContentLength64 = data.LongLength;
 
-            response.OutputStream.Write(data, 0, data.Length);
+            context.Response.OutputStream.Write(data, 0, data.Length);
 
-            response.Close();
+            context.Response.Close();
         }
     }
 }

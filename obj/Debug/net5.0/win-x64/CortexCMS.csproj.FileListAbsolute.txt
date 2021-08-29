@@ -235,3 +235,17 @@ C:\Cortex\v2\CortexCMS\obj\Debug\net5.0\win-x64\CortexCMS.dll
 C:\Cortex\v2\CortexCMS\obj\Debug\net5.0\win-x64\ref\CortexCMS.dll
 C:\Cortex\v2\CortexCMS\obj\Debug\net5.0\win-x64\CortexCMS.pdb
 C:\Cortex\v2\CortexCMS\obj\Debug\net5.0\win-x64\CortexCMS.genruntimeconfig.cache
+C:\Cortex\v2\CortexCMS\bin\Debug\net5.0\win-x64\BouncyCastle.Crypto.dll
+C:\Cortex\v2\CortexCMS\bin\Debug\net5.0\win-x64\Google.Protobuf.dll
+C:\Cortex\v2\CortexCMS\bin\Debug\net5.0\win-x64\K4os.Compression.LZ4.dll
+C:\Cortex\v2\CortexCMS\bin\Debug\net5.0\win-x64\K4os.Compression.LZ4.Streams.dll
+C:\Cortex\v2\CortexCMS\bin\Debug\net5.0\win-x64\K4os.Hash.xxHash.dll
+C:\Cortex\v2\CortexCMS\bin\Debug\net5.0\win-x64\Microsoft.Win32.SystemEvents.dll
+C:\Cortex\v2\CortexCMS\bin\Debug\net5.0\win-x64\MySql.Data.dll
+C:\Cortex\v2\CortexCMS\bin\Debug\net5.0\win-x64\Ubiety.Dns.Core.dll
+C:\Cortex\v2\CortexCMS\bin\Debug\net5.0\win-x64\Zstandard.Net.dll
+C:\Cortex\v2\CortexCMS\bin\Debug\net5.0\win-x64\System.Configuration.ConfigurationManager.dll
+C:\Cortex\v2\CortexCMS\bin\Debug\net5.0\win-x64\System.Drawing.Common.dll
+C:\Cortex\v2\CortexCMS\bin\Debug\net5.0\win-x64\System.Security.Cryptography.ProtectedData.dll
+C:\Cortex\v2\CortexCMS\bin\Debug\net5.0\win-x64\System.Security.Permissions.dll
+C:\Cortex\v2\CortexCMS\bin\Debug\net5.0\win-x64\System.Windows.Extensions.dll

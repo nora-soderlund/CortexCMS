@@ -1,6 +1,10 @@
 @import "components/fonts";
 @import "components/beta";
-@import "components/page";
+
+@import "components/page/header";
+@import "components/page/nav";
+@import "components/page/main";
+
 
 body {
     margin: 0;
@@ -85,6 +89,10 @@ input {
         background-color: #fff;
         border-color: #0074a6;
     }
+
+    &[disabled] {
+        opacity: .9;
+    }
 }
 
 .button {
@@ -132,7 +140,7 @@ input {
         border-bottom-style: solid;
     }
 
-    &:active {
+    &:active, &:disabled {
         box-shadow: 0 1px 0 1px rgb(0 0 0 / 30%);
         transform: translate(0,2px);
 
@@ -149,7 +157,7 @@ input {
             border-color: #53bdf9;
         }
 
-        &:active {
+        &:active, &:disabled {
             background-color: #084d74;
             border-color: #1e7b9e;
         }
