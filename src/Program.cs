@@ -16,13 +16,13 @@ namespace CortexCMS {
     class Program {
         public static string Directory = @"C:\Cortex\v2\CortexCMS\src\Web";
 
-        public static string Database = "server=127.0.0.1;uid=root;database=cortex;SslMode=none";
+        public static string Database = "server=127.0.0.1;uid=root;database=cortex;pwd=AfQ4P6!!;SslMode=none";
 
         public static void Main() {
             HttpListener listener = new HttpListener();
 
             listener.Prefixes.Add("http://localhost:8080/");
-            listener.Prefixes.Add("http://cortex5.io:80/");
+            //listener.Prefixes.Add("http://cortex5.io:80/");
 
             listener.Start();
             
