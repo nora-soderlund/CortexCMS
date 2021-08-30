@@ -22,7 +22,7 @@ namespace CortexCMS {
             HttpListener listener = new HttpListener();
 
             listener.Prefixes.Add("http://localhost:8080/");
-            //listener.Prefixes.Add("http://cortex5.io:80/");
+            listener.Prefixes.Add("http://cortex5.io:80/");
 
             listener.Start();
             

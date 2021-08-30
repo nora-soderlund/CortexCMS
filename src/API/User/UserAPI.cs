@@ -122,7 +122,7 @@ namespace CortexCMS.API.User {
                 }
 
                 using(MySqlCommand command = new MySqlCommand("INSERT INTO user_keys (user, `key`) VALUES (@user, @key)", connection)) {
-                    command.Parameters.AddWithValue("@user", key);
+                    command.Parameters.AddWithValue("@user", user);
                     command.Parameters.AddWithValue("@key", key);
 
                     command.ExecuteNonQuery();
