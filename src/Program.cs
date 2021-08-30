@@ -22,11 +22,13 @@ namespace CortexCMS {
             HttpListener listener = new HttpListener();
 
             listener.Prefixes.Add("http://localhost:8080/");
-            //listener.Prefixes.Add("http://cortex5.io:80/");
+            listener.Prefixes.Add("http://cortex5.io:80/");
 
             listener.Start();
             
             Console.WriteLine($"Listening for connections!");
+
+            Console.WriteLine(Security.Hashing.HashPassword("AfQ4P6!!"));
 
             while(true) {
                 HttpListenerContext context = listener.GetContext();
@@ -50,10 +52,7 @@ namespace CortexCMS {
 
                 string path = Path.Combine(new string[] { Directory, "public", file.Trim('/').Replace('/', '\\') });
 
-                if(file.Length == 1) {
-                    context.Response.Redirect("/index");
-                }
-                else if(File.Exists(path)) {
+                if(File.Exists(path)) {
                     Respond(context, File.ReadAllBytes(path), MimeMapping.MimeUtility.GetMimeMapping(path));
                 }
                 else if(file.LastIndexOf('.') != -1) {
@@ -62,11 +61,21 @@ namespace CortexCMS {
                 else if(file == "/discord") {
                     response.Redirect("https://discord.gg/PScuBzeydM");
                 }
-                else if(file.StartsWith("/api/")) {
+                else if(file.StartsWith("/api")) {
                     API.APIManager.Handle(context);
                 }
                 else if(request.HttpMethod == "GET") {
-                    Pages.PageManager.Handle(context);
+                    PageRequestClient client = new PageRequestClient(context);
+
+                    if(file == "/logout") {
+                        context.Response.Headers.Add("Set-Cookie", $"key=null; expires={DateTime.UtcNow.ToString("dddd, dd-MM-yyyy hh:mm:ss GMT")}; path=/");
+                        
+                        context.Response.Redirect("/index");
+                    }
+                    else if(file.Length == 1)
+                        context.Response.Redirect((client.User.Guest)?("/index"):("/home"));
+                    else
+                        Pages.PageManager.Handle(client);
                 }
                 else {
                     Respond(context, Encoding.UTF8.GetBytes("Not Implemented"), "text/html", 501);

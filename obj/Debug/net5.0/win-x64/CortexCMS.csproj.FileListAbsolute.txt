@@ -249,3 +249,4 @@ C:\Cortex\v2\CortexCMS\bin\Debug\net5.0\win-x64\System.Drawing.Common.dll
 C:\Cortex\v2\CortexCMS\bin\Debug\net5.0\win-x64\System.Security.Cryptography.ProtectedData.dll
 C:\Cortex\v2\CortexCMS\bin\Debug\net5.0\win-x64\System.Security.Permissions.dll
 C:\Cortex\v2\CortexCMS\bin\Debug\net5.0\win-x64\System.Windows.Extensions.dll
+C:\Cortex\v2\CortexCMS\bin\Debug\net5.0\win-x64\Newtonsoft.Json.dll

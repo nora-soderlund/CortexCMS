@@ -3,6 +3,6 @@ using System.Collections.Generic;
 
 namespace CortexCMS.API {
     interface IAPIRequest {
-        Dictionary<string, object> Handle(HttpListenerContext context, string method);
+        object Evaluate(HttpListenerContext context, string method, string body);
     }
 }

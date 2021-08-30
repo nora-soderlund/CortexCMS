@@ -2,7 +2,9 @@ using System.Net;
 
 namespace CortexCMS.Pages {
     interface IPageRequest {
-        string GetTitle(HttpListenerContext context);
-        string GetBody(HttpListenerContext context);
+        string GetTitle(PageRequestClient client);
+        string GetBody(PageRequestClient client);
+
+        bool GetAccess(PageRequestClient client) => true;
     }
 }

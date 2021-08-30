@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "WReo6cxX83qB346KUrm3PTPn3Xershd48bEEh/qd9/XnqdRZT9ohnNHIAmBpxq8kwUwxFnGNSBwlQiMIfXs3Wg==",
+  "dgSpecHash": "EijMbHIHXyagg9487LXx2xTkegIFjUFcfMmjenAWxlZKcsb8RZIqsXKt7JRaqcTHkgmlhYpF5HXIMEVPzLPYtQ==",
   "success": true,
   "projectFilePath": "C:\\Cortex\\v2\\CortexCMS\\CortexCMS.csproj",
   "expectedPackageFiles": [
@@ -13,6 +13,7 @@
     "C:\\Users\\caket\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "C:\\Users\\caket\\.nuget\\packages\\mimemapping\\1.0.1.37\\mimemapping.1.0.1.37.nupkg.sha512",
     "C:\\Users\\caket\\.nuget\\packages\\mysql.data\\8.0.26\\mysql.data.8.0.26.nupkg.sha512",
+    "C:\\Users\\caket\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\caket\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\caket\\.nuget\\packages\\system.configuration.configurationmanager\\4.4.1\\system.configuration.configurationmanager.4.4.1.nupkg.sha512",
     "C:\\Users\\caket\\.nuget\\packages\\system.drawing.common\\4.7.0\\system.drawing.common.4.7.0.nupkg.sha512",

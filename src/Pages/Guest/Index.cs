@@ -6,11 +6,11 @@ using MySql.Data.MySqlClient;
 
 namespace CortexCMS.Pages.Guest {
     class Index : IPageRequest {
-        public string GetTitle(HttpListenerContext context) {
+        public string GetTitle(PageRequestClient client) {
             return null;
         }
         
-        public string GetBody(HttpListenerContext context) {
+        public string GetBody(PageRequestClient client) {
             string news = "";
 
             using MySqlConnection connection = new MySqlConnection(Program.Database);
@@ -20,7 +20,7 @@ namespace CortexCMS.Pages.Guest {
             using MySqlDataReader reader = command.ExecuteReader();
 
             while(reader.Read()) {
-                news += PageManager.Get(context, "Pages/index/news.html", new Dictionary<string, string>() {
+                news += PageManager.Get(client, "Pages/index/news.html", new Dictionary<string, string>() {
                     { "title", reader.GetString("title") },
                     { "description", reader.GetString("description") },
                     
@@ -28,9 +28,13 @@ namespace CortexCMS.Pages.Guest {
                 });
             }
 
-            return PageManager.Get(context, "Pages/index.html", new Dictionary<string, string>() {
+            return PageManager.Get(client, "Pages/index.html", new Dictionary<string, string>() {
                 { "news", news }
             });
+        }
+
+        public bool GetAccess(PageRequestClient client) {
+            return client.User.Guest;
         }
     }
 }

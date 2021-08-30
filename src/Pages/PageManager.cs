@@ -11,40 +11,47 @@ namespace CortexCMS.Pages {
     class PageManager {
         public static Dictionary<string, IPageRequest> Requests = new Dictionary<string, IPageRequest>() {
             { "/index", new Guest.Index() },
+            { "/home", new User.Home() },
 
             { "/404", new Errors.Error404() }
         };
 
-        public static void Handle(HttpListenerContext context) {
-            if(!Requests.ContainsKey(context.Request.RawUrl)) {
-                context.Response.Redirect("/404");
+        public static void Handle(PageRequestClient client) {
+            if(!Requests.ContainsKey(client.Request.RawUrl)) {
+                client.Response.Redirect("/404");
 
                 return;
             }
 
             Dictionary<string, string> replacements = new Dictionary<string, string>();
 
-            IPageRequest request = Requests[context.Request.RawUrl];
+            IPageRequest request = Requests[client.Request.RawUrl];
 
-            string title = request.GetTitle(context);
+            if(!request.GetAccess(client)) {
+                client.Response.Redirect("/");
+
+                return;
+            }
+
+            string title = request.GetTitle(client);
             replacements.Add("title", title == null ? "Project Cortex" : title + " - Project Cortex");
 
-            if(context.Request.HttpMethod != "HEAD") {
-                string body = request.GetBody(context);
+            if(client.Request.HttpMethod != "HEAD") {
+                string body = request.GetBody(client);
 
                 if(body != null)
                     replacements.Add("body", body);
             }
             
-            Respond(context, Get(context, "index.html", replacements));
+            Respond(client, Get(client, "index.html", replacements));
         }
 
-        public static string Get(HttpListenerContext context, string component, Dictionary<string, string> replacements) {
+        public static string Get(PageRequestClient client, string component, Dictionary<string, string> replacements) {
             string path = Path.Combine(new string[] { Program.Directory, "Components", component });
 
             string document = File.ReadAllText(path);
 
-            replacements.Add("guest", ((bool)API.APIManager.Evaluate(context, "/api/user/authorize", "GET")["guest"])?("guest"):("user"));
+            replacements.Add("guest", (client.User.Guest)?("guest"):("user"));
 
             foreach(KeyValuePair<string, string> replacement in replacements) {
                 document = document.Replace("${" + replacement.Key + "}", replacement.Value);
@@ -55,23 +62,23 @@ namespace CortexCMS.Pages {
             MatchCollection matches = Regex.Matches(document, @"(\%{)(.*?)(\})");
 
             foreach(Match match in matches) {
-                document = document.Replace(match.Value, Get(context, match.Groups[2].Value, new Dictionary<string, string>()));
+                document = document.Replace(match.Value, Get(client, match.Groups[2].Value, new Dictionary<string, string>()));
             }
         
             return document;
         }
 
-        public static void Respond(HttpListenerContext context, string response, int status = 200) {
+        public static void Respond(PageRequestClient client, string response, int status = 200) {
             byte[] data = Encoding.UTF8.GetBytes(response);
 
-            context.Response.StatusCode = status;
-            context.Response.ContentType = "text/html";
-            context.Response.ContentEncoding = Encoding.UTF8;
-            context.Response.ContentLength64 = data.LongLength;
+            client.Response.StatusCode = status;
+            client.Response.ContentType = "text/html";
+            client.Response.ContentEncoding = Encoding.UTF8;
+            client.Response.ContentLength64 = data.LongLength;
 
-            context.Response.OutputStream.Write(data, 0, data.Length);
+            client.Response.OutputStream.Write(data, 0, data.Length);
 
-            context.Response.Close();
+            client.Response.Close();
         }
     }
 }

@@ -3,8 +3,8 @@
 
 @import "components/page/header";
 @import "components/page/nav";
+@import "components/page/subnav";
 @import "components/page/main";
-
 
 body {
     margin: 0;
@@ -88,6 +88,10 @@ input {
     &:focus {
         background-color: #fff;
         border-color: #0074a6;
+    }
+
+    &.error {
+        border-color: #903352;
     }
 
     &[disabled] {
