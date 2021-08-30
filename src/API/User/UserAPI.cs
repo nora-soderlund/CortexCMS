@@ -121,9 +121,10 @@ namespace CortexCMS.API.User {
                     }
                 }
 
-                using(MySqlCommand command = new MySqlCommand("INSERT INTO user_keys (user, `key`) VALUES (@user, @key)", connection)) {
+                using(MySqlCommand command = new MySqlCommand("INSERT INTO user_keys (user, `key`, address) VALUES (@user, @key, @address)", connection)) {
                     command.Parameters.AddWithValue("@user", user);
                     command.Parameters.AddWithValue("@key", key);
+                    command.Parameters.AddWithValue("@address", context.Request.RemoteEndPoint.Address.ToString());
 
                     command.ExecuteNonQuery();
                 }   
