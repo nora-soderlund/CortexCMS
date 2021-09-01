@@ -1,10 +1,10 @@
-#loader {
+#maintenance {
     background: #124773;
 
     width: 100%;
     height: 100%;
 
-    position: absolute;
+    position: fixed;
 
     left: 0;
     top: 0;
@@ -13,13 +13,13 @@
 
     overflow: hidden;
 
-    .loader-issues {
+    .maintenance-issues {
         position: absolute;
 
         bottom: 16px;
         right: 32px;
 
-        .loader-issues-frank {
+        .maintenance-issues-frank {
             position: absolute;
 
             bottom: -48px;
@@ -28,18 +28,18 @@
             pointer-events: none;
         }
 
-        .loader-issues-widget {
+        .maintenance-issues-widget {
             max-width: 320px;
         }
     } 
 
-    .loader-container {
+    .maintenance-container {
         display: flex;
 
         width: 100%;
         height: 100%;
 
-        .loader-logo {
+        .maintenance-logo {
             margin: auto;
         }
     }

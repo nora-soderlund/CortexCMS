@@ -11,6 +11,12 @@ namespace CortexCMS.Pages {
     class PageManager {
         public static Dictionary<string, IPageRequest> Requests = new Dictionary<string, IPageRequest>() {
             { "/index", new Guest.Index() },
+
+            { "/maintenance", new Guest.Maintenance() },
+
+            { "/registration", new Guest.Registration() },
+            { "/registration/verification", new Guest.Registration.Verification() },
+
             { "/home", new User.Home() },
 
             { "/404", new Errors.Error404() }
@@ -51,7 +57,7 @@ namespace CortexCMS.Pages {
 
             string document = File.ReadAllText(path);
 
-            replacements.Add("guest", (client.User.Guest)?("guest"):("user"));
+            replacements.Add("guest", (client == null || client.User.Guest)?("guest"):("user"));
 
             foreach(KeyValuePair<string, string> replacement in replacements) {
                 document = document.Replace("${" + replacement.Key + "}", replacement.Value);

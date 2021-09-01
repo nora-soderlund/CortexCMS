@@ -3,6 +3,7 @@ using System.Threading;
 using System.IO;
 using System.Text;
 using System.Net;
+using System.Net.Mail;
 using System.Linq;
 using System.Collections.Generic;
 using System.Web;
@@ -10,18 +11,36 @@ using System.Threading.Tasks;
 
 using MimeMapping;
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+
+using MySql.Data.MySqlClient;
+
 using CortexCMS.Pages;
 
 namespace CortexCMS {
     class Program {
+        public static bool Maintenance = false;
+
         public static string Directory = @"C:\Cortex\v2\CortexCMS\src\Web";
 
+        //public static string Database = "server=127.0.0.1;uid=root;database=cortex;SslMode=none";
         public static string Database = "server=127.0.0.1;uid=root;database=cortex;pwd=AfQ4P6!!;SslMode=none";
+
+        public static JsonSerializerSettings JSON = new JsonSerializerSettings() {
+            ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() }
+        };
+
+        public static SmtpClient Smpt = new SmtpClient("smtp.gmail.com") {
+            Port = 587,
+            Credentials = new NetworkCredential("prj.cortex@gmail.com", "AfQ4P6!!"),
+            EnableSsl = true
+        };
 
         public static void Main() {
             HttpListener listener = new HttpListener();
 
-            listener.Prefixes.Add("http://localhost:8080/");
+            //listener.Prefixes.Add("http://localhost:8080/");
             listener.Prefixes.Add("http://cortex5.io:80/");
 
             listener.Start();
@@ -67,10 +86,27 @@ namespace CortexCMS {
                 else if(request.HttpMethod == "GET") {
                     PageRequestClient client = new PageRequestClient(context);
 
-                    if(file == "/logout") {
+                    if(file.Count(x => x == '-') == 4 && file.LastIndexOf('/') == 0) {
+                        Guid guid = Guid.Parse(file.Substring(1));
+
+                        using MySqlConnection connection = new MySqlConnection(Program.Database);
+                        connection.Open();
+
+                        using MySqlCommand command = new MySqlCommand("SELECT * FROM links WHERE `key` = @key", connection);
+                        command.Parameters.AddWithValue("key", guid.ToString());
+
+                        using MySqlDataReader reader = command.ExecuteReader();
+
+                        if(reader.Read())
+                            context.Response.Redirect(reader.GetString("redirect"));
+                    }
+                    else if(file == "/logout") {
                         context.Response.Headers.Add("Set-Cookie", $"key=null; expires={DateTime.UtcNow.ToString("dddd, dd-MM-yyyy hh:mm:ss GMT")}; path=/");
                         
                         context.Response.Redirect("/index");
+                    }
+                    else if(Program.Maintenance == true && file != "/maintenance") {
+                        context.Response.Redirect("/maintenance");
                     }
                     else if(file.Length == 1)
                         context.Response.Redirect((client.User.Guest)?("/index"):("/home"));

@@ -6,12 +6,16 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+
 using CortexCMS.API.User;
 
 namespace CortexCMS.API {
     class APIManager {
         public static Dictionary<string, IAPIRequest> Requests = new Dictionary<string, IAPIRequest>() {
-            { "/api/user", new UserAPI() }
+            { "/api/user", new UserAPI() },
+            { "/api/user/register", new UserRegisterAPI() }
         };
 
         public static T Evaluate<T>(HttpListenerContext context, string request, string method, string body) {
@@ -23,10 +27,10 @@ namespace CortexCMS.API {
             HttpListenerResponse response = context.Response;
 
             if(!Requests.ContainsKey(request.RawUrl)) {
-                Respond(context, new {
+                Respond(context, JsonConvert.SerializeObject(new {
                     success = false,
                     message = $"The request {request.RawUrl} does not exist on the server!"
-                });
+                }, Program.JSON));
 
                 return;
             }
@@ -35,12 +39,12 @@ namespace CortexCMS.API {
             
             using StreamReader streamReader = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding);
             string body = streamReader.ReadToEnd();
-
-            Respond(context, apiRequest.Evaluate(context, context.Request.HttpMethod, body));
+            
+            Respond(context, JsonConvert.SerializeObject(apiRequest.Evaluate(context, context.Request.HttpMethod, body), Program.JSON));
         }
 
-        public static void Respond(HttpListenerContext context, object response) {
-            byte[] data = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(response));
+        public static void Respond(HttpListenerContext context, string response) {
+            byte[] data = Encoding.UTF8.GetBytes(response);
 
             context.Response.ContentType = "application/json";
             context.Response.ContentEncoding = Encoding.UTF8;

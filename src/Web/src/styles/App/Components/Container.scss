@@ -1,0 +1,30 @@
+.container {
+    width: 75%;
+    max-width: 1100px;
+
+    position: relative;
+
+    margin: 0 auto;
+
+    .container-link {
+        position: relative;
+
+        padding-right: 26px;
+
+        float: right;
+
+        &:after {
+            content: '';
+
+            position: absolute;
+
+            right: 0;
+            top: 0;
+
+            width: 23px;
+            height: 22px;
+
+            background: url(/images/link.png);
+        }
+    }
+}

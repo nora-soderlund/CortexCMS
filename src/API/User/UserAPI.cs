@@ -15,6 +15,8 @@ namespace CortexCMS.API.User {
             public bool Guest;
 
             public int? User = null;
+
+            public bool Verified = false;
         }
 
         public class PostResponse {
@@ -36,22 +38,40 @@ namespace CortexCMS.API.User {
                 using MySqlConnection connection = new MySqlConnection(Program.Database);
                 connection.Open();
 
-                using MySqlCommand command = new MySqlCommand("SELECT * FROM user_keys WHERE `key` = @key", connection);
-                command.Parameters.AddWithValue("@key", cookie.Value);
+                int user = -1;
 
-                using MySqlDataReader reader = command.ExecuteReader();
+                using(MySqlCommand command = new MySqlCommand("SELECT * FROM user_keys WHERE `key` = @key", connection)) {
+                    command.Parameters.AddWithValue("@key", cookie.Value);
 
-                if(!reader.Read()) {
+                    using MySqlDataReader reader = command.ExecuteReader();
+
+                    if(!reader.Read()) {
+                        return new Response() {
+                            Guest = true
+                        };
+                    }
+
+                    user = reader.GetInt32("user");
+                }
+
+                using(MySqlCommand command = new MySqlCommand("SELECT * FROM users WHERE id = @id", connection)) {
+                    command.Parameters.AddWithValue("@id", user);
+
+                    using MySqlDataReader reader = command.ExecuteReader();
+
+                    if(!reader.Read()) {
+                        return new Response() {
+                            Guest = true
+                        };
+                    }
+                    
                     return new Response() {
-                        Guest = true
+                        Guest = !reader.GetBoolean("verified"),
+
+                        User = user,
+                        Verified = reader.GetBoolean("verified")
                     };
                 }
-                
-                return new Response() {
-                    Guest = false,
-
-                    User = reader.GetInt32("user")
-                };
             }
 
             if(method == "POST") { 
@@ -130,7 +150,7 @@ namespace CortexCMS.API.User {
                 }   
 
                 return new PostResponse() {   
-                    Error = false,
+                    Error = false
                 };
             }
 
