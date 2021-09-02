@@ -80,7 +80,7 @@ namespace CortexCMS {
                 else if(file.LastIndexOf('.') != -1) {
                     if(file.StartsWith("/hotel/")) {
                         if(!client.User.Guest && client.User.Verified) {
-                            path = Path.Combine(new string[] { DirectoryClient, file.Trim('/').Replace('/', '\\') });
+                            path = Path.Combine(new string[] { DirectoryClient, file.Trim('/').Replace("hotel/", "").Replace('/', '\\') });
 
                             Respond(context, File.ReadAllBytes(path), MimeMapping.MimeUtility.GetMimeMapping(path));
                         }
