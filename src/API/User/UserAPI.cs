@@ -17,6 +17,8 @@ namespace CortexCMS.API.User {
             public int? User = null;
 
             public bool Verified = false;
+
+            public string Key = null;
         }
 
         public class PostResponse {
@@ -69,7 +71,8 @@ namespace CortexCMS.API.User {
                         Guest = !reader.GetBoolean("verified"),
 
                         User = user,
-                        Verified = reader.GetBoolean("verified")
+                        Verified = reader.GetBoolean("verified"),
+                        Key = cookie.Value
                     };
                 }
             }

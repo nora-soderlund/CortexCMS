@@ -23,6 +23,7 @@ namespace CortexCMS {
         public static bool Maintenance = false;
 
         public static string Directory = @"C:\Cortex\v2\CortexCMS\src\Web";
+        public static string DirectoryClient = @"C:\Cortex\Client";
 
         //public static string Database = "server=127.0.0.1;uid=root;database=cortex;SslMode=none";
         public static string Database = "server=127.0.0.1;uid=root;database=cortex;pwd=AfQ4P6!!;SslMode=none";
@@ -47,7 +48,7 @@ namespace CortexCMS {
             
             Console.WriteLine($"Listening for connections!");
 
-            Console.WriteLine(Security.Hashing.HashPassword("AfQ4P6!!"));
+            Console.WriteLine(Security.Hashing.HashPassword("123"));
 
             while(true) {
                 HttpListenerContext context = listener.GetContext();
@@ -71,11 +72,23 @@ namespace CortexCMS {
 
                 string path = Path.Combine(new string[] { Directory, "public", file.Trim('/').Replace('/', '\\') });
 
+                PageRequestClient client = new PageRequestClient(context);
+
                 if(File.Exists(path)) {
                     Respond(context, File.ReadAllBytes(path), MimeMapping.MimeUtility.GetMimeMapping(path));
                 }
                 else if(file.LastIndexOf('.') != -1) {
-                    Respond(context, Encoding.UTF8.GetBytes("File Not Found"), "text/html", 404);
+                    if(file.StartsWith("/hotel/")) {
+                        if(!client.User.Guest && client.User.Verified) {
+                            path = Path.Combine(new string[] { DirectoryClient, file.Trim('/').Replace('/', '\\') });
+
+                            Respond(context, File.ReadAllBytes(path), MimeMapping.MimeUtility.GetMimeMapping(path));
+                        }
+                        else
+                            context.Response.Redirect("/403");
+                    }
+                    else
+                        Respond(context, Encoding.UTF8.GetBytes("File Not Found"), "text/html", 404);
                 }
                 else if(file == "/discord") {
                     response.Redirect("https://discord.gg/PScuBzeydM");
@@ -84,8 +97,6 @@ namespace CortexCMS {
                     API.APIManager.Handle(context);
                 }
                 else if(request.HttpMethod == "GET") {
-                    PageRequestClient client = new PageRequestClient(context);
-
                     if(file.Count(x => x == '-') == 4 && file.LastIndexOf('/') == 0) {
                         Guid guid = Guid.Parse(file.Substring(1));
 

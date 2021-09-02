@@ -12,6 +12,7 @@ namespace CortexCMS.Pages {
         public static Dictionary<string, IPageRequest> Requests = new Dictionary<string, IPageRequest>() {
             { "/index", new Guest.Index() },
 
+            { "/about-us", new Guest.AboutUs() },
             { "/maintenance", new Guest.Maintenance() },
 
             { "/registration", new Guest.Registration() },
