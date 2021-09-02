@@ -70,6 +70,11 @@ namespace CortexCMS {
 
                 string file = request.RawUrl.ToLower();
 
+                int questionMark = file.IndexOf('?');
+
+                if(questionMark != -1)
+                    file = file.Substring(0, questionMark);
+
                 string path = Path.Combine(new string[] { Directory, "public", file.Trim('/').Replace('/', '\\') });
 
                 PageRequestClient client = new PageRequestClient(context);
