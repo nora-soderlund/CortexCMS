@@ -19,6 +19,7 @@ namespace CortexCMS.Pages {
             { "/registration/verification", new Guest.Registration.Verification() },
 
             { "/home", new User.Home() },
+            { "/hotel", new User.Hotel() },
 
             { "/404", new Errors.Error404() }
         };
