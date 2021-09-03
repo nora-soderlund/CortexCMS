@@ -77,13 +77,13 @@ namespace CortexCMS {
 
                 string path = Path.Combine(new string[] { Directory, "public", file.Trim('/').Replace('/', '\\') });
 
-                PageRequestClient client = new PageRequestClient(context);
-
                 if(File.Exists(path)) {
                     Respond(context, File.ReadAllBytes(path), MimeMapping.MimeUtility.GetMimeMapping(path));
                 }
                 else if(file.LastIndexOf('.') != -1) {
                     if(file.StartsWith("/hotel/")) {
+                        PageRequestClient client = new PageRequestClient(context);
+
                         if(!client.User.Guest && client.User.Verified) {
                             path = Path.Combine(new string[] { DirectoryClient, file.Trim('/').Replace("hotel/", "").Replace('/', '\\') });
 
@@ -102,6 +102,8 @@ namespace CortexCMS {
                     API.APIManager.Handle(context);
                 }
                 else if(request.HttpMethod == "GET") {
+                    PageRequestClient client = new PageRequestClient(context);
+
                     if(file.Count(x => x == '-') == 4 && file.LastIndexOf('/') == 0) {
                         Guid guid = Guid.Parse(file.Substring(1));
 
