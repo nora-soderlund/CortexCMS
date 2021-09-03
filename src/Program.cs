@@ -26,7 +26,7 @@ namespace CortexCMS {
         public static string DirectoryClient = @"C:\Cortex\Client";
 
         //public static string Database = "server=127.0.0.1;uid=root;database=cortex;SslMode=none";
-        public static string Database = "server=127.0.0.1;uid=root;database=cortex;pwd=AfQ4P6!!;SslMode=none";
+        public static string Database = "server=127.0.0.1;uid=root_nopw;database=cortex";
 
         public static JsonSerializerSettings JSON = new JsonSerializerSettings() {
             ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() }
