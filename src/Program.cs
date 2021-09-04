@@ -163,7 +163,7 @@ namespace CortexCMS {
                     else if(file.Length == 1)
                         context.Response.Redirect((client.User.Guest)?("/index"):("/home"));
                     else
-                        Pages.PageManager.Handle(client);
+                        Pages.PageManager.Handle(client, file);
                 }
                 else {
                     Respond(context, Encoding.UTF8.GetBytes("Not Implemented"), "text/html", 501);

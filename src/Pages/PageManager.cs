@@ -24,8 +24,8 @@ namespace CortexCMS.Pages {
             { "/404", new Errors.Error404() }
         };
 
-        public static void Handle(PageRequestClient client) {
-            if(!Requests.ContainsKey(client.Request.RawUrl)) {
+        public static void Handle(PageRequestClient client, string file) {
+            if(!Requests.ContainsKey(file)) {
                 client.Response.Redirect("/404");
 
                 return;
@@ -33,7 +33,7 @@ namespace CortexCMS.Pages {
 
             Dictionary<string, string> replacements = new Dictionary<string, string>();
 
-            IPageRequest request = Requests[client.Request.RawUrl];
+            IPageRequest request = Requests[file];
 
             if(!request.GetAccess(client)) {
                 client.Response.Redirect("/");
