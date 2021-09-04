@@ -121,6 +121,8 @@ namespace CortexCMS {
                 if(questionMark != -1)
                     file = file.Substring(0, questionMark - 1);
 
+                Console.WriteLine(file);
+
                 string path = Path.Combine(new string[] { (string)Program.Config["directories"]["cms"], "public", file.Trim('/').Replace('/', '\\') });
 
                 if(File.Exists(path)) {
