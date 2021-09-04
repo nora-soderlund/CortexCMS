@@ -34,6 +34,8 @@ namespace CortexCMS {
 
         public static SmtpClient Smtp;
 
+        public static Dictionary<string, string> Links = new Dictionary<string, string>();
+
         public static void Main() {
             try {
                 Console.WriteLine("Reading the configuration manifest...");
@@ -56,11 +58,20 @@ namespace CortexCMS {
                 using (MySqlConnection connection = new MySqlConnection(Database)) {
                     connection.Open();
 
-                    using MySqlCommand command = new MySqlCommand("SELECT * FROM settings", connection);
-                    using MySqlDataReader reader = command.ExecuteReader();
+                    using(MySqlCommand command = new MySqlCommand("SELECT * FROM settings", connection)) {
+                        using MySqlDataReader reader = command.ExecuteReader();
 
-                    while(reader.Read()) {
-                        Settings.Add(reader.GetString("key"), reader.GetString("value"));
+                        while(reader.Read()) {
+                            Settings.Add(reader.GetString("key"), reader.GetString("value"));
+                        }
+                    }
+
+                    using(MySqlCommand command = new MySqlCommand("SELECT * FROM links", connection)) {
+                        using MySqlDataReader reader = command.ExecuteReader();
+
+                        while(reader.Read()) {
+                            Links.Add(reader.GetString("key"), reader.GetString("value"));
+                        }
                     }
                 }
 
@@ -130,28 +141,14 @@ namespace CortexCMS {
                     else
                         Respond(context, Encoding.UTF8.GetBytes("File Not Found"), "text/html", 404);
                 }
-                else if(file == "/discord") {
-                    response.Redirect("https://discord.gg/PScuBzeydM");
-                }
                 else if(file.StartsWith("/api")) {
                     API.APIManager.Handle(context);
                 }
                 else if(request.HttpMethod == "GET") {
                     PageRequestClient client = new PageRequestClient(context);
 
-                    if(file.Count(x => x == '-') == 4 && file.LastIndexOf('/') == 0) {
-                        Guid guid = Guid.Parse(file.Substring(1));
-
-                        using MySqlConnection connection = new MySqlConnection(Program.Database);
-                        connection.Open();
-
-                        using MySqlCommand command = new MySqlCommand("SELECT * FROM links WHERE `key` = @key", connection);
-                        command.Parameters.AddWithValue("key", guid.ToString());
-
-                        using MySqlDataReader reader = command.ExecuteReader();
-
-                        if(reader.Read())
-                            context.Response.Redirect(reader.GetString("redirect"));
+                    if(Links.ContainsKey(file.Substring(1))) {
+                        context.Response.Redirect(Links[file.Substring(1)]);
                     }
                     else if(file == "/logout") {
                         context.Response.Headers.Add("Set-Cookie", $"key=null; expires={DateTime.UtcNow.ToString("dddd, dd-MM-yyyy hh:mm:ss GMT")}; path=/");

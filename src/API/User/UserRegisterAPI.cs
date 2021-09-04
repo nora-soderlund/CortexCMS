@@ -126,6 +126,8 @@ namespace CortexCMS.API.User {
                     command.Parameters.AddWithValue("@redirect", "/registration/verification?key=" + key);
 
                     command.ExecuteNonQuery();
+
+                    Program.Links.Add(key, "/registration/verification?key=" + key);
                 }
 
                 Program.Smtp.Send(new MailMessage(new MailAddress("noreply@cortex5.io", "Project Cortex"), new MailAddress(email.ToString(), name.ToString())) {
