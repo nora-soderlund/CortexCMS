@@ -17,6 +17,7 @@ namespace CortexCMS.API.User {
             public int? User = null;
 
             public bool Verified = false;
+            public bool BETA = false;
             
             public string Name = null;
 
@@ -74,6 +75,7 @@ namespace CortexCMS.API.User {
 
                         User = user,
                         Verified = reader.GetBoolean("verified"),
+                        BETA = reader.GetBoolean("beta"),
                         Name = reader.GetString("name"),
                         Key = cookie.Value
                     };

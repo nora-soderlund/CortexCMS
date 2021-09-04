@@ -17,7 +17,7 @@ namespace CortexCMS.Pages.User {
         }
 
         public bool GetAccess(PageRequestClient client) {
-            return !client.User.Guest && client.User.Verified;
+            return !client.User.Guest && client.User.Verified && client.User.BETA;
         }
 
         public bool GetPage(PageRequestClient client) {

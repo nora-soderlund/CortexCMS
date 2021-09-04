@@ -132,7 +132,7 @@ namespace CortexCMS {
                     if(file.StartsWith("/cdn/")) {
                         PageRequestClient client = new PageRequestClient(context);
 
-                        if(!client.User.Guest && client.User.Verified) {
+                        if(!client.User.Guest && client.User.Verified && client.User.BETA) {
                             path = Path.Combine(new string[] { (string)Program.Config["directories"]["client"], file.Trim('/').Replace("cdn/", "").Replace('/', '\\') });
 
                             Respond(context, File.ReadAllBytes(path), MimeMapping.MimeUtility.GetMimeMapping(path));
