@@ -116,11 +116,11 @@ namespace CortexCMS {
                     Respond(context, File.ReadAllBytes(path), MimeMapping.MimeUtility.GetMimeMapping(path));
                 }
                 else if(file.LastIndexOf('.') != -1) {
-                    if(file.StartsWith("/hotel/")) {
+                    if(file.StartsWith("/cdn/")) {
                         PageRequestClient client = new PageRequestClient(context);
 
                         if(!client.User.Guest && client.User.Verified) {
-                            path = Path.Combine(new string[] { (string)Program.Config["directories"]["client"], file.Trim('/').Replace("hotel/", "").Replace('/', '\\') });
+                            path = Path.Combine(new string[] { (string)Program.Config["directories"]["client"], file.Trim('/').Replace("cdn/", "").Replace('/', '\\') });
 
                             Respond(context, File.ReadAllBytes(path), MimeMapping.MimeUtility.GetMimeMapping(path));
                         }

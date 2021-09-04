@@ -28,6 +28,7 @@
     },
 
     "prefixes": [
-        "http://localhost:8080/"
+        "http://local.cortex5.io:8080/",
+        "http://cdn.local.cortex5.io:8080/"
     ]
 }
