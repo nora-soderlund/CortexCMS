@@ -59,7 +59,7 @@
             return false;
         }
         
-        window.location.href = "/";
+        window.location.href = "/register/verification";
 
         return false;
     };

@@ -119,7 +119,7 @@ namespace CortexCMS {
                 int questionMark = file.IndexOf('?');
 
                 if(questionMark != -1)
-                    file = file.Substring(0, questionMark);
+                    file = file.Substring(0, questionMark - 1);
 
                 string path = Path.Combine(new string[] { (string)Program.Config["directories"]["cms"], "public", file.Trim('/').Replace('/', '\\') });
 

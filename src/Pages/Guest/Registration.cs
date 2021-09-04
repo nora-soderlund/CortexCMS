@@ -61,7 +61,7 @@ namespace CortexCMS.Pages.Guest {
                     properties.Add("body", "You have verified your e-mail, thank you! You're now put on the BETA waiting list. You will receive an e-mail when you're invited for testing!");
                 }
                 else
-                    properties.Add("body", "We're waiting for you to verify your e-mail address before you can be put in the BETA waiting list! Don't let it sit for too long!");
+                    properties.Add("body", "You have been sent a verification e-mail, follow the instructions there to enter the BETA waiting list!");
 
                 return PageManager.Get(client, "Pages/registration/verification.html", properties);
             }
