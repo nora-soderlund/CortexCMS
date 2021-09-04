@@ -63,6 +63,10 @@ namespace CortexCMS.Pages {
 
             replacements.Add("guest", (client == null || client.User.Guest)?("guest"):("user"));
 
+            if(!client.User.Guest) {
+                replacements.Add("name", client.User.Name);
+            }
+
             foreach(KeyValuePair<string, string> replacement in replacements) {
                 document = document.Replace("${" + replacement.Key + "}", replacement.Value);
             }

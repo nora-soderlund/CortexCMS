@@ -70,7 +70,7 @@ namespace CortexCMS {
                         using MySqlDataReader reader = command.ExecuteReader();
 
                         while(reader.Read()) {
-                            Links.Add(reader.GetString("key"), reader.GetString("value"));
+                            Links.Add(reader.GetString("key"), reader.GetString("redirect"));
                         }
                     }
                 }
