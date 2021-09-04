@@ -116,10 +116,10 @@ namespace CortexCMS {
 
                 string file = request.RawUrl.ToLower();
 
-                int questionMark = file.IndexOf('?');
+                int questionMark = file.LastIndexOf('?');
 
                 if(questionMark != -1)
-                    file = file.Substring(0, questionMark);
+                    file = file.Substring(0, questionMark + 1);
 
                 Console.WriteLine(file);
 
