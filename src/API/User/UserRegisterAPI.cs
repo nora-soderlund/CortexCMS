@@ -128,7 +128,7 @@ namespace CortexCMS.API.User {
                     command.ExecuteNonQuery();
                 }
 
-                Program.Smpt.Send(new MailMessage(new MailAddress("noreply@cortex5.io", "Project Cortex"), new MailAddress(email.ToString(), name.ToString())) {
+                Program.Smtp.Send(new MailMessage(new MailAddress("noreply@cortex5.io", "Project Cortex"), new MailAddress(email.ToString(), name.ToString())) {
                     Subject = "Registration",
 
                     Sender = new MailAddress("noreply@cortex5.io", "Project Cortex"),
@@ -154,6 +154,15 @@ namespace CortexCMS.API.User {
                     command.ExecuteNonQuery();
 
                     user = (int)command.LastInsertedId;
+                }
+
+                using(MySqlCommand command = new MySqlCommand("INSERT INTO user_keys (user, `key`, address, type) VALUES (@user, @key, @address, @type)", connection)) {
+                    command.Parameters.AddWithValue("@user", user);
+                    command.Parameters.AddWithValue("@key", key);
+                    command.Parameters.AddWithValue("@address", context.Request.RemoteEndPoint.Address.ToString());
+                    command.Parameters.AddWithValue("@type", "email");
+
+                    command.ExecuteNonQuery();
                 }
 
                 key = Guid.NewGuid().ToString();

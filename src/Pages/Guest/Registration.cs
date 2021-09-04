@@ -24,11 +24,54 @@ namespace CortexCMS.Pages.Guest {
             }
             
             public string GetBody(PageRequestClient client) {
-                return PageManager.Get(client, "Pages/registration/verification.html", new Dictionary<string, string>());
+                Dictionary<string, string> properties = new Dictionary<string, string>();
+
+                if(!client.User.Guest && client.User.Verified) {
+                    properties.Add("body", "You have already verified your e-mail!");
+                }
+                else if(client.Parameters.ContainsKey("key")) {
+                    string key = client.Parameters["key"];
+
+                    using MySqlConnection connection = new MySqlConnection(Program.Database);
+                    connection.Open();
+
+                    int user = 0;
+
+                    using(MySqlCommand command = new MySqlCommand("SELECT * FROM user_keys WHERE `key` = @key AND type = @type", connection)) {
+                        command.Parameters.AddWithValue("@key", key);
+                        command.Parameters.AddWithValue("@type", "email");
+
+                        using MySqlDataReader reader = command.ExecuteReader();
+
+                        if(!reader.Read()) {
+                            properties.Add("body", "We couldn't verify any users with that verification key!");
+                            
+                            return PageManager.Get(client, "Pages/registration/verification.html", properties);
+                        }
+
+                        user = reader.GetInt32("user");
+                    }
+
+                    using(MySqlCommand command = new MySqlCommand("UPDATE users SET verified = true WHERE id = @id", connection)) {
+                        command.Parameters.AddWithValue("@id", user);
+                        
+                        command.ExecuteNonQuery();
+                    }
+                    
+                    properties.Add("body", "You have verified your e-mail, thank you! You're now put on the BETA waiting list. You will receive an e-mail when you're invited for testing!");
+                }
+                else
+                    properties.Add("body", "We're waiting for you to verify your e-mail address before you can be put in the BETA waiting list! Don't let it sit for too long!");
+
+                return PageManager.Get(client, "Pages/registration/verification.html", properties);
             }
 
             public bool GetAccess(PageRequestClient client) {
-                return client.User.Guest && !client.User.Verified;
+                return true;
+            }
+
+            public void Evaluate(PageRequestClient client) {
+                
             }
         }
     }

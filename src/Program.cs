@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using MimeMapping;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
 using MySql.Data.MySqlClient;
@@ -20,42 +21,76 @@ using CortexCMS.Pages;
 
 namespace CortexCMS {
     class Program {
-        public static bool Maintenance = false;
+        public static JObject Config;
+        public static Dictionary<string, string> Settings = new Dictionary<string, string>();
 
-        public static string Directory = @"C:\Cortex\v2\CortexCMS\src\Web";
-        public static string DirectoryClient = @"C:\Cortex\Client";
+        public static string Directory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
-        //public static string Database = "server=127.0.0.1;uid=root;database=cortex;SslMode=none";
-        public static string Database = "server=127.0.0.1;uid=root_nopw;database=cortex";
+        public static string Database;
 
         public static JsonSerializerSettings JSON = new JsonSerializerSettings() {
             ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() }
         };
 
-        public static SmtpClient Smpt = new SmtpClient("smtp.gmail.com") {
-            Port = 587,
-            Credentials = new NetworkCredential("prj.cortex@gmail.com", "AfQ4P6!!"),
-            EnableSsl = true
-        };
+        public static SmtpClient Smtp;
 
         public static void Main() {
-            HttpListener listener = new HttpListener();
+            try {
+                Console.WriteLine("Reading the configuration manifest...");
 
-            //listener.Prefixes.Add("http://localhost:8080/");
-            listener.Prefixes.Add("http://cortex5.io:80/");
+                Config = JObject.Parse(File.ReadAllText(Program.Directory + "/CortexCMS.json"));
 
-            listener.Start();
-            
-            Console.WriteLine($"Listening for connections!");
+                Console.WriteLine($"Connecting to the SMTP server at {Config["smtp"]["host"]}:{Config["smtp"]["port"]}...");
 
-            Console.WriteLine(Security.Hashing.HashPassword("123"));
+                Smtp = new SmtpClient((string)Config["smtp"]["host"]) {
+                    Port = (int)Config["smtp"]["port"],
+                    EnableSsl = (bool)Config["smtp"]["ssl"],
+                    
+                    Credentials = new NetworkCredential((string)Config["smtp"]["credentials"]["name"], (string)Config["smtp"]["credentials"]["password"])
+                };
 
-            while(true) {
-                HttpListenerContext context = listener.GetContext();
-                
-                ThreadPool.QueueUserWorkItem((e) => {
-                    HandleRequest(context);
-                });
+                Console.WriteLine($"Connecting to the MySQL server at {Config["mysql"]["credentials"]["name"]}@{Config["smtp"]["host"]}...");
+
+                Database = $"server={Config["mysql"]["host"]};uid={Config["mysql"]["credentials"]["name"]};pwd={Config["mysql"]["credentials"]["password"]};database={Config["mysql"]["database"]};SslMode={Config["mysql"]["ssl"]}";
+
+                using (MySqlConnection connection = new MySqlConnection(Database)) {
+                    connection.Open();
+
+                    using MySqlCommand command = new MySqlCommand("SELECT * FROM settings", connection);
+                    using MySqlDataReader reader = command.ExecuteReader();
+
+                    while(reader.Read()) {
+                        Settings.Add(reader.GetString("key"), reader.GetString("value"));
+                    }
+                }
+
+                Console.WriteLine("Starting to listen to connections to:");
+
+                using HttpListener listener = new HttpListener();
+
+                foreach(JToken prefix in Config["prefixes"]) {
+                    Console.WriteLine("\t" + (string)prefix);
+
+                    listener.Prefixes.Add((string)prefix);
+                }
+
+                listener.Start();
+
+                while(true) {
+                    HttpListenerContext context = listener.GetContext();
+                    
+                    ThreadPool.QueueUserWorkItem((e) => {
+                        HandleRequest(context);
+                    });
+                }
+            }
+            catch(Exception exception) {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+
+                Console.WriteLine("An error occured in the main thread, application must exit:" + Environment.NewLine + "\t" + exception.Message);
+                Console.WriteLine(exception.StackTrace);
+
+                Console.Read();
             }
         }
 
@@ -75,7 +110,7 @@ namespace CortexCMS {
                 if(questionMark != -1)
                     file = file.Substring(0, questionMark);
 
-                string path = Path.Combine(new string[] { Directory, "public", file.Trim('/').Replace('/', '\\') });
+                string path = Path.Combine(new string[] { (string)Program.Config["directories"]["cms"], "public", file.Trim('/').Replace('/', '\\') });
 
                 if(File.Exists(path)) {
                     Respond(context, File.ReadAllBytes(path), MimeMapping.MimeUtility.GetMimeMapping(path));
@@ -85,7 +120,7 @@ namespace CortexCMS {
                         PageRequestClient client = new PageRequestClient(context);
 
                         if(!client.User.Guest && client.User.Verified) {
-                            path = Path.Combine(new string[] { DirectoryClient, file.Trim('/').Replace("hotel/", "").Replace('/', '\\') });
+                            path = Path.Combine(new string[] { (string)Program.Config["directories"]["client"], file.Trim('/').Replace("hotel/", "").Replace('/', '\\') });
 
                             Respond(context, File.ReadAllBytes(path), MimeMapping.MimeUtility.GetMimeMapping(path));
                         }
@@ -123,7 +158,7 @@ namespace CortexCMS {
                         
                         context.Response.Redirect("/index");
                     }
-                    else if(Program.Maintenance == true && file != "/maintenance") {
+                    else if(Program.Settings["maintenance"] == "true" && file != "/maintenance") {
                         context.Response.Redirect("/maintenance");
                     }
                     else if(file.Length == 1)

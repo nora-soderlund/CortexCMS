@@ -15,7 +15,7 @@ namespace CortexCMS.Pages.Guest {
         }
 
         public bool GetAccess(PageRequestClient client) {
-            return Program.Maintenance;
+            return Program.Settings["maintenance"] == "true";
         }
     }
 }

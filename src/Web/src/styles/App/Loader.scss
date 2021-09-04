@@ -11,6 +11,8 @@
 
     z-index: 10;
 
+    padding: 0;
+
     overflow: hidden;
 
     .maintenance-issues {
@@ -30,6 +32,8 @@
 
         .maintenance-issues-widget {
             max-width: 320px;
+
+            padding: 12px;
         }
     } 
 

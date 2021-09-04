@@ -41,6 +41,8 @@ namespace CortexCMS.Pages {
                 return;
             }
 
+            request.Evaluate(client);
+
             string title = request.GetTitle(client);
             replacements.Add("title", title == null ? "Project Cortex" : title + " - Project Cortex");
 
@@ -55,7 +57,7 @@ namespace CortexCMS.Pages {
         }
 
         public static string Get(PageRequestClient client, string component, Dictionary<string, string> replacements) {
-            string path = Path.Combine(new string[] { Program.Directory, "Components", component });
+            string path = Path.Combine(new string[] { (string)Program.Config["directories"]["cms"], "Components", component });
 
             string document = File.ReadAllText(path);
 
