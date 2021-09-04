@@ -71,7 +71,7 @@ namespace CortexCMS.Pages {
 
             replacements.TryAdd("guest", (client == null || client.User.Guest)?("guest"):("user"));
 
-            if(!client.User.Guest) {
+            if(client != null && !client.User.Guest) {
                 replacements.TryAdd("name", client.User.Name);
             }
 
