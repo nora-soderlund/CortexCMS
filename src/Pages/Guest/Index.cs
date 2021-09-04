@@ -23,6 +23,8 @@ namespace CortexCMS.Pages.Guest {
                 news += PageManager.Get(client, "Pages/index/news.html", new Dictionary<string, string>() {
                     { "title", reader.GetString("title") },
                     { "description", reader.GetString("description") },
+
+                    { "link", "/community/news/" + reader.GetString("link") },
                     
                     { "image", reader.GetString("image") }
                 });
