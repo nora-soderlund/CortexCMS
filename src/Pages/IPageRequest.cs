@@ -6,6 +6,7 @@ namespace CortexCMS.Pages {
         string GetBody(PageRequestClient client);
 
         bool GetAccess(PageRequestClient client) => true;
+        bool GetPage(PageRequestClient client) => true;
 
         void Evaluate(PageRequestClient client) {}
     }

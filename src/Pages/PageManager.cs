@@ -52,8 +52,16 @@ namespace CortexCMS.Pages {
                 if(body != null)
                     replacements.Add("body", body);
             }
-            
-            Respond(client, Get(client, "index.html", replacements));
+
+            if(request.GetPage(client)) {
+                string page = Get(client, "page.html", replacements);
+
+                replacements["body"] = page;
+
+                Respond(client, Get(client, "index.html", replacements));
+            }
+            else
+                Respond(client, Get(client, "index.html", replacements));
         }
 
         public static string Get(PageRequestClient client, string component, Dictionary<string, string> replacements) {
@@ -61,10 +69,10 @@ namespace CortexCMS.Pages {
 
             string document = File.ReadAllText(path);
 
-            replacements.Add("guest", (client == null || client.User.Guest)?("guest"):("user"));
+            replacements.TryAdd("guest", (client == null || client.User.Guest)?("guest"):("user"));
 
             if(!client.User.Guest) {
-                replacements.Add("name", client.User.Name);
+                replacements.TryAdd("name", client.User.Name);
             }
 
             foreach(KeyValuePair<string, string> replacement in replacements) {
