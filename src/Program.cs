@@ -119,7 +119,7 @@ namespace CortexCMS {
                 int questionMark = file.LastIndexOf('?');
 
                 if(questionMark != -1)
-                    file = file.Substring(0, questionMark + 1);
+                    file = file.Substring(0, questionMark);
 
                 Console.WriteLine(file);
 
