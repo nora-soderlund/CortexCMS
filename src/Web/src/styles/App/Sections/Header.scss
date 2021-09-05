@@ -128,4 +128,14 @@ header {
             }
         }
     }
+
+    @media only screen and (max-width: 1366px) {
+        .hotel {
+            display: none;
+        }
+
+        .invite {
+            left: 0;
+        }
+    }
 }
