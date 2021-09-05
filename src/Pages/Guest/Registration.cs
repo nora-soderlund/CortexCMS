@@ -96,6 +96,8 @@ namespace CortexCMS.Pages.Guest {
                 if(client.Parameters.ContainsKey("code")) {
                     JObject user = API.Discord.OAuth2.GetUser(API.Discord.OAuth2.GetToken(client.Parameters["code"]));
 
+                    Console.WriteLine(user);
+
                     using MySqlConnection connection = new MySqlConnection(Program.Database);
                     connection.Open();
 
@@ -113,6 +115,13 @@ namespace CortexCMS.Pages.Guest {
                         }
 
                         id = reader.GetInt32("id");
+                    }
+
+                    using(MySqlCommand command = new MySqlCommand("UPDATE users SET email = @email WHERE id = @id AND email = ''", connection)) {
+                        command.Parameters.AddWithValue("@id", id);
+                        command.Parameters.AddWithValue("@email", user["email"]);
+                        
+                        command.ExecuteNonQuery();
                     }
 
                     string key = Guid.NewGuid().ToString();
