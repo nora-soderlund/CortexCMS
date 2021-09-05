@@ -180,6 +180,9 @@ namespace CortexCMS {
         }
 
         public static void Respond(HttpListenerContext context, byte[] data, string contentType = "text/html", int status = 200) {
+            if(context.Response.RedirectLocation != null)
+                return;
+                
             context.Response.StatusCode = status;
             context.Response.ContentType = contentType;
             context.Response.ContentEncoding = Encoding.UTF8;

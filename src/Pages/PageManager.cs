@@ -17,6 +17,7 @@ namespace CortexCMS.Pages {
 
             { "/registration", new Guest.Registration() },
             { "/registration/verification", new Guest.Registration.Verification() },
+            { "/registration/discord", new Guest.Registration.Discord() },
 
             { "/home", new User.Home() },
             { "/hotel", new User.Hotel() },
@@ -91,6 +92,9 @@ namespace CortexCMS.Pages {
         }
 
         public static void Respond(PageRequestClient client, string response, int status = 200) {
+            if(client.Response.RedirectLocation != null)
+                return;
+
             byte[] data = Encoding.UTF8.GetBytes(response);
 
             client.Response.StatusCode = status;

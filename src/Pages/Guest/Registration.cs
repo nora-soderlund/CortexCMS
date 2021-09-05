@@ -1,6 +1,16 @@
+using System;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Web;
 using System.Linq;
+using System.Text;
+using System.IO;
 using System.Collections.Generic;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 
 using MySql.Data.MySqlClient;
 
@@ -11,7 +21,9 @@ namespace CortexCMS.Pages.Guest {
         }
         
         public string GetBody(PageRequestClient client) {
-            return PageManager.Get(client, "Pages/registration.html", new Dictionary<string, string>());
+            return PageManager.Get(client, "Pages/registration.html", new Dictionary<string, string>() {
+                { "discord.oauth2.authorize", (string)Program.Config["discord"]["oauth2"]["authorize"] }
+            });
         }
 
         public bool GetAccess(PageRequestClient client) {
@@ -72,6 +84,83 @@ namespace CortexCMS.Pages.Guest {
 
             public void Evaluate(PageRequestClient client) {
                 
+            }
+        }
+        
+        public class Discord : IPageRequest {
+            public string GetTitle(PageRequestClient client) {
+                return "Discord Registration";
+            }
+            
+            public string GetBody(PageRequestClient client) {
+                if(client.Parameters.ContainsKey("code")) {
+                    JObject user = API.Discord.OAuth2.GetUser(API.Discord.OAuth2.GetToken(client.Parameters["code"]));
+
+                    using MySqlConnection connection = new MySqlConnection(Program.Database);
+                    connection.Open();
+
+                    int id;
+
+                    using(MySqlCommand command = new MySqlCommand("SELECT * FROM users WHERE discord = @discord", connection)) {
+                        command.Parameters.AddWithValue("@discord", (ulong)user["id"]);
+
+                        using MySqlDataReader reader = command.ExecuteReader();
+
+                        if(!reader.Read()) {
+                            return PageManager.Get(client, "Pages/registration/discord.html", new Dictionary<string, string>() {
+                                { "body", "Your Discord account is not associated with any users!" }
+                            });
+                        }
+
+                        id = reader.GetInt32("id");
+                    }
+
+                    string key = Guid.NewGuid().ToString();
+
+                    while(true) {
+                        using(MySqlCommand command = new MySqlCommand("SELECT * FROM user_keys WHERE `key` = @key", connection)) {
+                            command.Parameters.AddWithValue("@key", key);
+
+                            using MySqlDataReader reader = command.ExecuteReader();
+
+                            if(reader.Read()) {
+                                key = Guid.NewGuid().ToString();
+
+                                continue;      
+                            }          
+
+                            client.Response.Headers.Add("Set-Cookie", $"key={key}; expires={DateTime.UtcNow.AddMonths(3).ToString("dddd, dd-MM-yyyy hh:mm:ss GMT")}; path=/");
+
+                            break;
+                        }
+                    }
+
+                    using(MySqlCommand command = new MySqlCommand("INSERT INTO user_keys (user, `key`, address) VALUES (@user, @key, @address)", connection)) {
+                        command.Parameters.AddWithValue("@user", id);
+                        command.Parameters.AddWithValue("@key", key);
+                        command.Parameters.AddWithValue("@address", client.Request.RemoteEndPoint.Address.ToString());
+
+                        command.ExecuteNonQuery();
+                    }
+
+                    client.Response.Redirect("/");
+
+                    return null;
+                }
+
+                return PageManager.Get(client, "Pages/registration/discord.html", new Dictionary<string, string>() {
+                    { "body", client.Parameters["code"] }
+                });
+            }
+
+            public bool GetAccess(PageRequestClient client) {
+                return client.User.Guest;
+            }
+
+            public void Evaluate(PageRequestClient client) {
+                if(!client.Parameters.ContainsKey("code")) {
+                    client.Response.Redirect((string)Program.Config["discord"]["oauth2"]["authorize"]);
+                }
             }
         }
     }
