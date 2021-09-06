@@ -96,6 +96,8 @@ namespace CortexCMS {
                 }
             }
             catch(Exception exception) {
+                File.AppendAllText(Path.Combine(Directory, "CortexCMS.log"), $"An error occured in the main thread, application must exit:{Environment.NewLine}\t{exception.Message}{Environment.NewLine}{exception.StackTrace}{Environment.NewLine}");
+
                 Console.ForegroundColor = ConsoleColor.DarkRed;
 
                 Console.WriteLine("An error occured in the main thread, application must exit:" + Environment.NewLine + "\t" + exception.Message);
