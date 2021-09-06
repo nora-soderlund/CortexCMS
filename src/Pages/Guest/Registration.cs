@@ -14,6 +14,8 @@ using Newtonsoft.Json.Serialization;
 
 using MySql.Data.MySqlClient;
 
+using Cortex;
+
 namespace CortexCMS.Pages.Guest {
     class Registration : IPageRequest {
         public string GetTitle(PageRequestClient client) {
@@ -96,7 +98,7 @@ namespace CortexCMS.Pages.Guest {
                 if(client.Parameters.ContainsKey("code")) {
                     JObject user = API.Discord.OAuth2.GetUser(API.Discord.OAuth2.GetToken(client.Parameters["code"]));
 
-                    Console.WriteLine(user);
+                    Logs.WriteConsole(user.ToString());
 
                     using MySqlConnection connection = new MySqlConnection(Program.Database);
                     connection.Open();

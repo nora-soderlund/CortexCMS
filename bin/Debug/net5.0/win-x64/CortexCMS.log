@@ -1,0 +1,30 @@
+An error occured in the main thread, application must exit:
+	Access to the path 'C:\Cortex\v2\CortexCMS\bin\Debug\net5.0\win-x64\logs\2021-09-06-15-06.log' is denied.
+   at System.IO.FileStream.ValidateFileHandle(SafeFileHandle fileHandle)
+   at System.IO.FileStream.CreateFileOpenHandle(FileMode mode, FileShare share, FileOptions options)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize)
+   at System.IO.File.Create(String path)
+   at Cortex.Logs.Write(String input) in C:\Cortex\Cortex\Logs.cs:line 29
+   at Cortex.Logs.WriteConsole(String input) in C:\Cortex\Cortex\Logs.cs:line 51
+   at CortexCMS.Program.Main() in C:\Cortex\v2\CortexCMS\src\Program.cs:line 41
+An error occured in the main thread, application must exit:
+	Access to the path 'C:\Cortex\v2\CortexCMS\bin\Debug\net5.0\win-x64\logs\2021-09-06-15-06.log' is denied.
+   at System.IO.FileStream.ValidateFileHandle(SafeFileHandle fileHandle)
+   at System.IO.FileStream.CreateFileOpenHandle(FileMode mode, FileShare share, FileOptions options)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize)
+   at System.IO.File.Create(String path)
+   at Cortex.Logs.Write(String input) in C:\Cortex\Cortex\Logs.cs:line 29
+   at Cortex.Logs.WriteConsole(String input) in C:\Cortex\Cortex\Logs.cs:line 51
+   at CortexCMS.Program.Main() in C:\Cortex\v2\CortexCMS\src\Program.cs:line 41
+An error occured in the main thread, application must exit:
+	Access to the path 'C:\Cortex\v2\CortexCMS\bin\Debug\net5.0\win-x64\logs\2021-09-06-15-13.log' is denied.
+   at System.IO.FileStream.ValidateFileHandle(SafeFileHandle fileHandle)
+   at System.IO.FileStream.CreateFileOpenHandle(FileMode mode, FileShare share, FileOptions options)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize)
+   at System.IO.File.Create(String path)
+   at Cortex.Logs.Write(String input) in C:\Cortex\Cortex\Logs.cs:line 29
+   at Cortex.Logs.WriteConsole(String input) in C:\Cortex\Cortex\Logs.cs:line 51
+   at CortexCMS.Program.Main() in C:\Cortex\v2\CortexCMS\src\Program.cs:line 41

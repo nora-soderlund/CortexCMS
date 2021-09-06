@@ -12,4 +12,10 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Cortex">
+      <HintPath>..\..\Cortex\bin\Debug\net5.0\Cortex.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

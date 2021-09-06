@@ -17,14 +17,14 @@ using Newtonsoft.Json.Serialization;
 
 using MySql.Data.MySqlClient;
 
+using Cortex;
+
 using CortexCMS.Pages;
 
 namespace CortexCMS {
     class Program {
         public static JObject Config;
         public static Dictionary<string, string> Settings = new Dictionary<string, string>();
-
-        public static string Directory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
         public static string Database;
 
@@ -38,11 +38,11 @@ namespace CortexCMS {
 
         public static void Main() {
             try {
-                Console.WriteLine("Reading the configuration manifest...");
+                Logs.WriteConsole("Reading the configuration manifest...");
 
-                Config = JObject.Parse(File.ReadAllText(Program.Directory + "/CortexCMS.json"));
+                Config = JObject.Parse(File.ReadAllText(Utility.Directory + "/CortexCMS.json"));
 
-                Console.WriteLine($"Connecting to the SMTP server at {Config["smtp"]["host"]}:{Config["smtp"]["port"]}...");
+                Logs.WriteConsole($"Connecting to the SMTP server at {Config["smtp"]["host"]}:{Config["smtp"]["port"]}...");
 
                 Smtp = new SmtpClient((string)Config["smtp"]["host"]) {
                     Port = (int)Config["smtp"]["port"],
@@ -51,7 +51,7 @@ namespace CortexCMS {
                     Credentials = new NetworkCredential((string)Config["smtp"]["credentials"]["name"], (string)Config["smtp"]["credentials"]["password"])
                 };
 
-                Console.WriteLine($"Connecting to the MySQL server at {Config["mysql"]["credentials"]["name"]}@{Config["smtp"]["host"]}...");
+                Logs.WriteConsole($"Connecting to the MySQL server at {Config["mysql"]["credentials"]["name"]}@{Config["smtp"]["host"]}...");
 
                 Database = $"server={Config["mysql"]["host"]};uid={Config["mysql"]["credentials"]["name"]};pwd={Config["mysql"]["credentials"]["password"]};database={Config["mysql"]["database"]};SslMode={Config["mysql"]["ssl"]}";
 
@@ -75,12 +75,12 @@ namespace CortexCMS {
                     }
                 }
 
-                Console.WriteLine("Starting to listen to connections to:");
+                Logs.WriteConsole("Starting to listen to connections to:");
 
                 using HttpListener listener = new HttpListener();
 
                 foreach(JToken prefix in Config["prefixes"]) {
-                    Console.WriteLine("\t" + (string)prefix);
+                    Logs.WriteConsole("\t" + (string)prefix);
 
                     listener.Prefixes.Add((string)prefix);
                 }
@@ -96,12 +96,12 @@ namespace CortexCMS {
                 }
             }
             catch(Exception exception) {
-                File.AppendAllText(Path.Combine(Directory, "CortexCMS.log"), $"An error occured in the main thread, application must exit:{Environment.NewLine}\t{exception.Message}{Environment.NewLine}{exception.StackTrace}{Environment.NewLine}");
+                File.AppendAllText(Path.Combine(Utility.Directory, "CortexCMS.log"), $"An error occured in the main thread, application must exit:{Environment.NewLine}\t{exception.Message}{Environment.NewLine}{exception.StackTrace}{Environment.NewLine}");
 
                 Console.ForegroundColor = ConsoleColor.DarkRed;
 
-                Console.WriteLine("An error occured in the main thread, application must exit:" + Environment.NewLine + "\t" + exception.Message);
-                Console.WriteLine(exception.StackTrace);
+                Logs.WriteConsole("An error occured in the main thread, application must exit:" + Environment.NewLine + "\t" + exception.Message);
+                Logs.WriteConsole(exception.StackTrace);
 
                 Console.Read();
             }
@@ -112,9 +112,7 @@ namespace CortexCMS {
             HttpListenerResponse response = context.Response;
 
             try {
-                Console.WriteLine($"Receiving request from {request.RemoteEndPoint.Address} for {request.RawUrl}");
-                
-                Console.WriteLine();
+                Logs.WriteConsole($"Receiving request from {request.RemoteEndPoint.Address} for {request.RawUrl}");
 
                 string file = request.RawUrl.ToLower();
 
@@ -123,7 +121,7 @@ namespace CortexCMS {
                 if(questionMark != -1)
                     file = file.Substring(0, questionMark);
 
-                Console.WriteLine(file);
+                Logs.WriteConsole(file);
 
                 string path = Path.Combine(new string[] { (string)Program.Config["directories"]["cms"], "public", file.Trim('/').Replace('/', '\\') });
 
@@ -174,8 +172,8 @@ namespace CortexCMS {
             catch(Exception exception) {
                 Respond(context, Encoding.UTF8.GetBytes("Internal Server Error"), "text/html", 500);
 
-                Console.WriteLine(exception.Message);
-                Console.WriteLine(exception.StackTrace);
+                Logs.WriteConsole(exception.Message);
+                Logs.WriteConsole(exception.StackTrace);
             }
 
             response.Close();
