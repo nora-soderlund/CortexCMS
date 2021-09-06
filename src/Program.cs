@@ -91,7 +91,13 @@ namespace CortexCMS {
                     HttpListenerContext context = listener.GetContext();
                     
                     ThreadPool.QueueUserWorkItem((e) => {
-                        HandleRequest(context);
+                        try {
+                            HandleRequest(context);
+                        }
+                        catch(Exception exception) {
+                            Logs.WriteConsole(exception.Message);
+                            Logs.WriteConsole(exception.StackTrace);
+                        }
                     });
                 }
             }
