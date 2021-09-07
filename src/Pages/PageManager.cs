@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace CortexCMS.Pages {
+namespace Cortex.CMS.Pages {
     class PageManager {
         public static Dictionary<string, IPageRequest> Requests = new Dictionary<string, IPageRequest>() {
             { "/index", new Guest.Index() },
@@ -66,7 +66,7 @@ namespace CortexCMS.Pages {
         }
 
         public static string Get(PageRequestClient client, string component, Dictionary<string, string> replacements) {
-            string path = Path.Combine(new string[] { (string)Program.Config["directories"]["cms"], "Components", component });
+            string path = Path.Combine(new string[] { (string)Program.Config["cms"]["directories"]["cms"], "Components", component });
 
             string document = File.ReadAllText(path);
 

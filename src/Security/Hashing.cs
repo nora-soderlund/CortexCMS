@@ -1,7 +1,7 @@
 using System;
 using System.Security.Cryptography;
 
-namespace CortexCMS.Security {
+namespace Cortex.CMS.Security {
     class Hashing {
         public const int SaltByteSize = 24;
         public const int HashByteSize = 20; // to match the size of the PBKDF2-HMAC-SHA-1 hash 

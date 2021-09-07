@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <Reference Include="Cortex">
-      <HintPath>..\..\Cortex\bin\Debug\net5.0\Cortex.dll</HintPath>
+      <HintPath>C:\Cortex\Cortex\bin\Debug\net5.0\win-x64\Cortex.dll</HintPath>
     </Reference>
   </ItemGroup>
 

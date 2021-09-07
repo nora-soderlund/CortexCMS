@@ -2,9 +2,9 @@ using System;
 using System.Net;
 using System.Collections.Generic;
 
-using CortexCMS.API.User;
+using Cortex.CMS.API.User;
 
-namespace CortexCMS {
+namespace Cortex.CMS {
     class PageRequestClient {
         public HttpListenerRequest Request;
         public HttpListenerResponse Response;

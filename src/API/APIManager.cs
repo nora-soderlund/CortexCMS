@@ -9,9 +9,9 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-using CortexCMS.API.User;
+using Cortex.CMS.API.User;
 
-namespace CortexCMS.API {
+namespace Cortex.CMS.API {
     class APIManager {
         public static Dictionary<string, IAPIRequest> Requests = new Dictionary<string, IAPIRequest>() {
             { "/api/user", new UserAPI() },

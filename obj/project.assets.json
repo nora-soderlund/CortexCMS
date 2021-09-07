@@ -1153,11 +1153,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Cortex\\v2\\CortexCMS\\CortexCMS.csproj",
-      "projectName": "CortexCMS",
-      "projectPath": "C:\\Cortex\\v2\\CortexCMS\\CortexCMS.csproj",
+      "projectUniqueName": "C:\\Cortex\\Cortex.CMS\\Cortex.CMS.csproj",
+      "projectName": "Cortex.CMS",
+      "projectPath": "C:\\Cortex\\Cortex.CMS\\Cortex.CMS.csproj",
       "packagesPath": "C:\\Users\\caket\\.nuget\\packages\\",
-      "outputPath": "C:\\Cortex\\v2\\CortexCMS\\obj\\",
+      "outputPath": "C:\\Cortex\\Cortex.CMS\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"

@@ -1,7 +1,7 @@
 using System.Net;
 using System.Collections.Generic;
 
-namespace CortexCMS.API {
+namespace Cortex.CMS.API {
     interface IAPIRequest {
         object Evaluate(HttpListenerContext context, string method, string body);
     }

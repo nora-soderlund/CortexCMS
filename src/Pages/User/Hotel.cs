@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 using MySql.Data.MySqlClient;
 
-namespace CortexCMS.Pages.User {
+namespace Cortex.CMS.Pages.User {
     class Hotel : IPageRequest {
         public string GetTitle(PageRequestClient client) {
             return "Hotel";

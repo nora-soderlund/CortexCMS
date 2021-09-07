@@ -16,7 +16,7 @@ using MySql.Data.MySqlClient;
 
 using Cortex;
 
-namespace CortexCMS.Pages.Guest {
+namespace Cortex.CMS.Pages.Guest {
     class Registration : IPageRequest {
         public string GetTitle(PageRequestClient client) {
             return "Registration";
@@ -24,7 +24,7 @@ namespace CortexCMS.Pages.Guest {
         
         public string GetBody(PageRequestClient client) {
             return PageManager.Get(client, "Pages/registration.html", new Dictionary<string, string>() {
-                { "discord.oauth2.authorize", (string)Program.Config["discord"]["oauth2"]["authorize"] }
+                { "discord.oauth2.authorize", (string)Program.Config["discord"]["api"]["oauth2"]["authorize"] }
             });
         }
 
@@ -170,7 +170,7 @@ namespace CortexCMS.Pages.Guest {
 
             public void Evaluate(PageRequestClient client) {
                 if(!client.Parameters.ContainsKey("code")) {
-                    client.Response.Redirect((string)Program.Config["discord"]["oauth2"]["authorize"]);
+                    client.Response.Redirect((string)Program.Config["discord"]["api"]["oauth2"]["authorize"]);
                 }
             }
         }

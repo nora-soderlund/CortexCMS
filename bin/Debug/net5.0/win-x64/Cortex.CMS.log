@@ -1,0 +1,10 @@
+An error occured in the main thread, application must exit:
+	Could not find file 'C:\Cortex\Cortex.CMS\bin\Debug\net5.0\win-x64\Cortex.CMS.json'.
+   at System.IO.FileStream.ValidateFileHandle(SafeFileHandle fileHandle)
+   at System.IO.FileStream.CreateFileOpenHandle(FileMode mode, FileShare share, FileOptions options)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options)
+   at System.IO.StreamReader.ValidateArgsAndOpenPath(String path, Encoding encoding, Int32 bufferSize)
+   at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks)
+   at System.IO.File.InternalReadAllText(String path, Encoding encoding)
+   at System.IO.File.ReadAllText(String path)
+   at Cortex.CMS.Program.Main() in C:\Cortex\Cortex.CMS\src\Program.cs:line 43

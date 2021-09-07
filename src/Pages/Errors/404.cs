@@ -2,7 +2,7 @@ using System.Net;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace CortexCMS.Pages.Errors {
+namespace Cortex.CMS.Pages.Errors {
     class Error404 : IPageRequest {
         public string GetTitle(PageRequestClient client) {
             return "404";

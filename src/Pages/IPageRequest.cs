@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace CortexCMS.Pages {
+namespace Cortex.CMS.Pages {
     interface IPageRequest {
         string GetTitle(PageRequestClient client);
         string GetBody(PageRequestClient client);

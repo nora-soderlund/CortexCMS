@@ -10,14 +10,14 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
-namespace CortexCMS.API.Discord {
+namespace Cortex.CMS.API.Discord {
     class OAuth2 {
         public static string GetToken(string code) {
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create("https://discordapp.com/api/oauth2/token");
 
             webRequest.Method = "POST";
             
-            string parameters = $"client_id={Program.Config["discord"]["client"]}&client_secret={Program.Config["discord"]["secret"]}&grant_type=authorization_code&code={code}&redirect_uri={Program.Config["discord"]["oauth2"]["redirect"]}";
+            string parameters = $"client_id={Program.Config["discord"]["api"]["client"]}&client_secret={Program.Config["discord"]["api"]["secret"]}&grant_type=authorization_code&code={code}&redirect_uri={Program.Config["discord"]["api"]["oauth2"]["redirect"]}";
 
             byte[] byteArray = Encoding.UTF8.GetBytes(parameters);
 

@@ -4,5 +4,5 @@ using System.Collections.Generic;
 
 using MySql.Data.MySqlClient;
 
-namespace CortexCMS.Pages.Guest {
+namespace Cortex.CMS.Pages.Guest {
 }

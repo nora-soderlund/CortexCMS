@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 
 using MySql.Data.MySqlClient;
 
-namespace CortexCMS.API.User {
+namespace Cortex.CMS.API.User {
 
     class UserRegisterAPI : IAPIRequest {
         public class Response {

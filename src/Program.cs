@@ -19,9 +19,9 @@ using MySql.Data.MySqlClient;
 
 using Cortex;
 
-using CortexCMS.Pages;
+using Cortex.CMS.Pages;
 
-namespace CortexCMS {
+namespace Cortex.CMS {
     class Program {
         public static JObject Config;
         public static Dictionary<string, string> Settings = new Dictionary<string, string>();
@@ -40,7 +40,7 @@ namespace CortexCMS {
             try {
                 Logs.WriteConsole("Reading the configuration manifest...");
 
-                Config = JObject.Parse(File.ReadAllText(Utility.Directory + "/CortexCMS.json"));
+                Config = JObject.Parse(File.ReadAllText("C:/Cortex/Cortex.json"));
 
                 Logs.WriteConsole($"Connecting to the SMTP server at {Config["smtp"]["host"]}:{Config["smtp"]["port"]}...");
 
@@ -53,7 +53,7 @@ namespace CortexCMS {
 
                 Logs.WriteConsole($"Connecting to the MySQL server at {Config["mysql"]["credentials"]["name"]}@{Config["smtp"]["host"]}...");
 
-                Database = $"server={Config["mysql"]["host"]};uid={Config["mysql"]["credentials"]["name"]};pwd={Config["mysql"]["credentials"]["password"]};database={Config["mysql"]["database"]};SslMode={Config["mysql"]["ssl"]}";
+                Database = $"server={Config["mysql"]["host"]};uid={Config["mysql"]["credentials"]["name"]};pwd={Config["mysql"]["credentials"]["password"]};database={Config["mysql"]["database"]};SslMode={Config["mysql"]["sslmode"]}";
 
                 using (MySqlConnection connection = new MySqlConnection(Database)) {
                     connection.Open();
@@ -79,7 +79,7 @@ namespace CortexCMS {
 
                 using HttpListener listener = new HttpListener();
 
-                foreach(JToken prefix in Config["prefixes"]) {
+                foreach(JToken prefix in Config["cms"]["prefixes"]) {
                     Logs.WriteConsole("\t" + (string)prefix);
 
                     listener.Prefixes.Add((string)prefix);
@@ -102,7 +102,7 @@ namespace CortexCMS {
                 }
             }
             catch(Exception exception) {
-                File.AppendAllText(Path.Combine(Utility.Directory, "CortexCMS.log"), $"An error occured in the main thread, application must exit:{Environment.NewLine}\t{exception.Message}{Environment.NewLine}{exception.StackTrace}{Environment.NewLine}");
+                File.AppendAllText(Path.Combine(Utility.Directory, "Cortex.CMS.log"), $"An error occured in the main thread, application must exit:{Environment.NewLine}\t{exception.Message}{Environment.NewLine}{exception.StackTrace}{Environment.NewLine}");
 
                 Console.ForegroundColor = ConsoleColor.DarkRed;
 
@@ -129,7 +129,7 @@ namespace CortexCMS {
 
                 Logs.WriteConsole(file);
 
-                string path = Path.Combine(new string[] { (string)Program.Config["directories"]["cms"], "public", file.Trim('/').Replace('/', '\\') });
+                string path = Path.Combine(new string[] { (string)Program.Config["cms"]["directories"]["cms"], "public", file.Trim('/').Replace('/', '\\') });
 
                 if(File.Exists(path)) {
                     Respond(context, File.ReadAllBytes(path), MimeMapping.MimeUtility.GetMimeMapping(path));
@@ -139,7 +139,7 @@ namespace CortexCMS {
                         PageRequestClient client = new PageRequestClient(context);
 
                         if(!client.User.Guest && client.User.Verified && client.User.BETA) {
-                            path = Path.Combine(new string[] { (string)Program.Config["directories"]["client"], file.Trim('/').Replace("cdn/", "").Replace('/', '\\') });
+                            path = Path.Combine(new string[] { (string)Program.Config["cms"]["directories"]["client"], file.Trim('/').Replace("cdn/", "").Replace('/', '\\') });
 
                             Respond(context, File.ReadAllBytes(path), MimeMapping.MimeUtility.GetMimeMapping(path));
                         }
