@@ -14,6 +14,9 @@ using MimeMapping;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json.Schema;
+using Newtonsoft.Json.Bson;
+using Newtonsoft.Json.Converters;
 
 using MySql.Data.MySqlClient;
 
@@ -41,6 +44,17 @@ namespace Cortex.CMS {
                 Logs.WriteConsole("Reading the configuration manifest...");
 
                 Config = JObject.Parse(File.ReadAllText("C:/Cortex/Cortex.json"));
+
+                Logs.WriteConsole("Serializing the public client configuration to a manifest...");
+
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Converters.Add(new JavaScriptDateTimeConverter());
+                serializer.NullValueHandling = NullValueHandling.Ignore;
+
+                using (StreamWriter sw = new StreamWriter(Path.Combine(new string[] { (string)Config["cms"]["directories"]["www"], "public", "scripts/client.json" })))
+                using (JsonWriter writer = new JsonTextWriter(sw)) {
+                    serializer.Serialize(writer, Config["client"]["public"]);
+                }
 
                 Logs.WriteConsole($"Connecting to the SMTP server at {Config["smtp"]["host"]}:{Config["smtp"]["port"]}...");
 
@@ -127,17 +141,17 @@ namespace Cortex.CMS {
 
                 Logs.WriteConsole(file);
 
-                string path = Path.Combine(new string[] { (string)Program.Config["cms"]["directories"]["cms"], "public", file.Trim('/').Replace('/', '\\') });
+                string path = Path.Combine(new string[] { (string)Program.Config["cms"]["directories"]["www"], "public", file.Trim('/').Replace('/', '\\') });
 
                 if(File.Exists(path)) {
                     Respond(context, File.ReadAllBytes(path), MimeMapping.MimeUtility.GetMimeMapping(path));
                 }
                 else if(file.LastIndexOf('.') != -1) {
-                    if(file.StartsWith("/cdn/")) {
+                    if(file.StartsWith("/hotel/")) {
                         PageRequestClient client = new PageRequestClient(context);
 
                         if(!client.User.Guest && client.User.Verified && client.User.BETA) {
-                            path = Path.Combine(new string[] { (string)Program.Config["cms"]["directories"]["client"], file.Trim('/').Replace("cdn/", "").Replace('/', '\\') });
+                            path = Path.Combine(new string[] { (string)Program.Config["cms"]["directories"]["client"], file.Trim('/').Replace("hotel/", "").Replace('/', '\\') });
 
                             Respond(context, File.ReadAllBytes(path), MimeMapping.MimeUtility.GetMimeMapping(path));
                         }

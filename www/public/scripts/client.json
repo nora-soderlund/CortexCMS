@@ -1,0 +1,1 @@
+{"socket":{"address":"localhost","port":81,"ssl":false},"cdn":"http://local.cortex5.io/hotel/","api":{"youtube":"http://localhost/YouTube/"},"scripts":["Client.js"],"fonts":["Ubuntu Regular","Ubuntu Italic","Ubuntu Bold","Ubuntu Bold Italic","Ubuntu Light","Ubuntu Light Italic","Ubuntu Medium","Ubuntu Medium Italic"]}

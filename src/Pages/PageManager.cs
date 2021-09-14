@@ -66,7 +66,7 @@ namespace Cortex.CMS.Pages {
         }
 
         public static string Get(PageRequestClient client, string component, Dictionary<string, string> replacements) {
-            string path = Path.Combine(new string[] { (string)Program.Config["cms"]["directories"]["cms"], "Components", component });
+            string path = Path.Combine(new string[] { (string)Program.Config["cms"]["directories"]["www"], "pages", component });
 
             string document = File.ReadAllText(path);
 
