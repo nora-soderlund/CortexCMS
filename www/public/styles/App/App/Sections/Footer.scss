@@ -1,0 +1,19 @@
+footer {
+    font-size: smaller;
+
+    background: #001726;
+
+    padding: 24px 0;
+
+    #footer-grid {
+        display: grid;
+
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
+        grid-gap: 12px;
+
+        #footer-contact {
+            text-align: center;
+        }
+    }
+}

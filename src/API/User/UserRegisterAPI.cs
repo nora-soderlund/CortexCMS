@@ -22,6 +22,11 @@ namespace Cortex.CMS.API.User {
         }
 
         public object Evaluate(HttpListenerContext context, string method, string body) {
+            DateTime launchDateTime = new DateTime(2022, 04, 01);
+
+            if(launchDateTime > DateTime.Now)
+                return null;
+
             if(method == "POST") { 
                 var jObject = JObject.Parse(body);
 
@@ -105,7 +110,7 @@ namespace Cortex.CMS.API.User {
 
                 string key = Guid.NewGuid().ToString();
 
-                while(true) {
+                /*while(true) {
                     using(MySqlCommand command = new MySqlCommand("SELECT * FROM links WHERE `key` = @key", connection)) {
                         command.Parameters.AddWithValue("@key", key);
 
@@ -144,7 +149,7 @@ namespace Cortex.CMS.API.User {
                             })
                         }
                     })
-                });
+                });*/
 
                 int user = -1;
 
@@ -158,14 +163,14 @@ namespace Cortex.CMS.API.User {
                     user = (int)command.LastInsertedId;
                 }
 
-                using(MySqlCommand command = new MySqlCommand("INSERT INTO user_keys (user, `key`, address, type) VALUES (@user, @key, @address, @type)", connection)) {
+                /*using(MySqlCommand command = new MySqlCommand("INSERT INTO user_keys (user, `key`, address, type) VALUES (@user, @key, @address, @type)", connection)) {
                     command.Parameters.AddWithValue("@user", user);
                     command.Parameters.AddWithValue("@key", key);
                     command.Parameters.AddWithValue("@address", context.Request.RemoteEndPoint.Address.ToString());
                     command.Parameters.AddWithValue("@type", "email");
 
                     command.ExecuteNonQuery();
-                }
+                }*/
 
                 key = Guid.NewGuid().ToString();
 

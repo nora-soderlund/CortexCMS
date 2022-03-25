@@ -11,6 +11,7 @@ namespace Cortex.CMS.Pages {
     class PageManager {
         public static Dictionary<string, IPageRequest> Requests = new Dictionary<string, IPageRequest>() {
             { "/index", new Guest.Index() },
+            { "/index/reset-password", new Guest.Index.ResetPassword() },
 
             { "/about-us", new Guest.AboutUs() },
             { "/maintenance", new Guest.Maintenance() },
@@ -21,8 +22,12 @@ namespace Cortex.CMS.Pages {
 
             { "/home", new User.Home() },
             { "/hotel", new User.Hotel() },
+            { "/hotel/lockdown", new User.Hotel.Lockdown() },
+            
+            { "/launch", new Guest.Launch() },
 
-            { "/404", new Errors.Error404() }
+            { "/404", new Errors.Error404() },
+
         };
 
         public static void Handle(PageRequestClient client, string file) {

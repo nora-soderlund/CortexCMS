@@ -1,0 +1,61 @@
+@import "../App/App/Fonts";
+
+html, body {
+    min-height: 100vh;
+}
+
+body {
+    margin: 0;
+
+    font-family: "Ubuntu", Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-weight: normal;
+
+    color: #7ecaee;
+
+    background: url(../images/background.png),#15507c linear-gradient(135deg, #15507c, #0c3a65) no-repeat fixed;
+
+    overflow: overlay;
+
+    display: flex;
+}
+
+h1 {
+    font-size: 48pt;
+}
+
+h2 {
+    font-size: 32pt;
+}
+
+#launch {
+    margin: auto;
+
+    .launch-logo {
+        margin-top: -32px;
+        margin-bottom: 32px;
+    }
+
+    .launch-grid {
+        display: grid; 
+
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
+        grid-gap: 24px;
+
+        h2 {
+            min-width: 2ch;
+
+            text-align: center;
+        }
+
+        h2, h3 {
+            display: inline-block;
+        }
+    }
+
+    p {
+        max-width: fit-content;
+    }
+}
+
+

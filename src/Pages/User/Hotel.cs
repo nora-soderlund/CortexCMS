@@ -17,11 +17,30 @@ namespace Cortex.CMS.Pages.User {
         }
 
         public bool GetAccess(PageRequestClient client) {
-            return !client.User.Guest && client.User.Verified && client.User.BETA;
+            return !client.User.Guest/*  && client.User.Verified&& client.User.BETA*/;
         }
 
         public bool GetPage(PageRequestClient client) {
             return false;
+        }
+
+        public class Lockdown : IPageRequest {
+            public string GetTitle(PageRequestClient client) {
+                return "Hotel Lockdown";
+            }
+            
+            public string GetBody(PageRequestClient client) {
+                return PageManager.Get(client, "Pages/Hotel/lockdown.html", new Dictionary<string, string>() {
+                });
+            }
+
+            public bool GetPage(PageRequestClient client) {
+                return false;
+            }
+
+            public bool GetAccess(PageRequestClient client) {
+                return !client.User.Guest;
+            }
         }
     }
 }

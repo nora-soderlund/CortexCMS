@@ -71,7 +71,7 @@ namespace Cortex.CMS.API.User {
                     }
                     
                     return new Response() {
-                        Guest = !reader.GetBoolean("verified"),
+                        Guest = false,
 
                         User = user,
                         Verified = reader.GetBoolean("verified"),
@@ -155,7 +155,7 @@ namespace Cortex.CMS.API.User {
                     command.Parameters.AddWithValue("@address", context.Request.RemoteEndPoint.Address.ToString());
 
                     command.ExecuteNonQuery();
-                }   
+                }
 
                 return new PostResponse() {   
                     Error = false

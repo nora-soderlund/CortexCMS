@@ -72,10 +72,10 @@ namespace Cortex.CMS.Pages.Guest {
                         command.ExecuteNonQuery();
                     }
                     
-                    properties.Add("body", "You have verified your e-mail, thank you! You're now put on the BETA waiting list. You will receive an e-mail when you're invited for testing!");
+                    properties.Add("body", "You have verified your e-mail, thank you! You can now join us in the hotel!");
                 }
                 else
-                    properties.Add("body", "You have been sent a verification e-mail, follow the instructions there to enter the BETA waiting list!");
+                    properties.Add("body", "You have been sent a verification e-mail, follow the instructions there!");
 
                 return PageManager.Get(client, "Pages/registration/verification.html", properties);
             }

@@ -59,7 +59,7 @@
             return false;
         }
         
-        window.location.href = "/register/verification";
+        window.location.href = "/hotel";
 
         return false;
     };

@@ -6,6 +6,7 @@
 @import "App/Sections/Subnav";
 @import "App/Sections/Announcement";
 @import "App/Sections/Main";
+@import "App/Sections/Footer";
 
 @import "App/Components/Container";
 @import "App/Components/Buttons";
@@ -22,17 +23,7 @@ body {
 
     color: #7ecaee;
 
-    background: #15507c linear-gradient(135deg, #15507c, #0c3a65) no-repeat fixed;
+    background: url(../images/background.png),#15507c linear-gradient(135deg, #15507c, #0c3a65) no-repeat fixed;
 
     overflow: overlay;
-}
-
-a {
-    color: #fff;
-
-    text-decoration: none;
-
-    &:hover {
-        text-decoration: underline;
-    }
 }

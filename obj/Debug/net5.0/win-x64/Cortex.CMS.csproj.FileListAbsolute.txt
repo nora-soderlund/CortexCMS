@@ -241,7 +241,6 @@ C:\Cortex\Cortex.CMS\bin\Debug\net5.0\win-x64\dbgshim.dll
 C:\Cortex\Cortex.CMS\bin\Debug\net5.0\win-x64\hostfxr.dll
 C:\Cortex\Cortex.CMS\bin\Debug\net5.0\win-x64\hostpolicy.dll
 C:\Cortex\Cortex.CMS\bin\Debug\net5.0\win-x64\mscordaccore.dll
-C:\Cortex\Cortex.CMS\bin\Debug\net5.0\win-x64\mscordaccore_amd64_amd64_5.0.721.25508.dll
 C:\Cortex\Cortex.CMS\bin\Debug\net5.0\win-x64\mscordbi.dll
 C:\Cortex\Cortex.CMS\bin\Debug\net5.0\win-x64\mscorrc.dll
 C:\Cortex\Cortex.CMS\bin\Debug\net5.0\win-x64\ucrtbase.dll
@@ -252,3 +251,4 @@ C:\Cortex\Cortex.CMS\obj\Debug\net5.0\win-x64\Cortex.CMS.dll
 C:\Cortex\Cortex.CMS\obj\Debug\net5.0\win-x64\ref\Cortex.CMS.dll
 C:\Cortex\Cortex.CMS\obj\Debug\net5.0\win-x64\Cortex.CMS.pdb
 C:\Cortex\Cortex.CMS\obj\Debug\net5.0\win-x64\Cortex.CMS.genruntimeconfig.cache
+C:\Cortex\Cortex.CMS\bin\Debug\net5.0\win-x64\mscordaccore_amd64_amd64_5.0.1321.56516.dll

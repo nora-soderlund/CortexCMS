@@ -20,7 +20,7 @@ namespace Cortex.CMS.Pages.Guest {
             using MySqlDataReader reader = command.ExecuteReader();
 
             while(reader.Read()) {
-                news += PageManager.Get(client, "Pages/index/news.html", new Dictionary<string, string>() {
+                news += PageManager.Get(client, "Pages/index/news-article.html", new Dictionary<string, string>() {
                     { "title", reader.GetString("title") },
                     { "description", reader.GetString("description") },
 
@@ -31,12 +31,32 @@ namespace Cortex.CMS.Pages.Guest {
             }
 
             return PageManager.Get(client, "Pages/index.html", new Dictionary<string, string>() {
-                { "news", news }
+                { "news", (news.Length != 0)?(PageManager.Get(client, "Pages/index/news.html", new Dictionary<string, string>() {
+                    { "articles", news }
+                })):("") }
             });
         }
 
         public bool GetAccess(PageRequestClient client) {
             return client.User.Guest;
+        }
+
+        public class ResetPassword : IPageRequest {
+            public string GetTitle(PageRequestClient client) {
+                return "Reset Password";
+            }
+            
+            public string GetBody(PageRequestClient client) {
+                return PageManager.Get(client, "Pages/Index/reset-password.html", new Dictionary<string, string>());
+            }
+
+            public bool GetAccess(PageRequestClient client) {
+                return client.User.Guest;
+            }
+
+            public void Evaluate(PageRequestClient client) {
+                
+            }
         }
     }
 }

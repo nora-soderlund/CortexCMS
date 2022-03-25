@@ -150,7 +150,7 @@ namespace Cortex.CMS {
                     if(file.StartsWith("/hotel/")) {
                         PageRequestClient client = new PageRequestClient(context);
 
-                        if(!client.User.Guest && client.User.Verified && client.User.BETA) {
+                        if(!client.User.Guest/* && client.User.Verified && client.User.BETA*/) {
                             path = Path.Combine(new string[] { (string)Program.Config["cms"]["directories"]["client"], file.Trim('/').Replace("hotel/", "").Replace('/', '\\') });
 
                             Respond(context, File.ReadAllBytes(path), MimeMapping.MimeUtility.GetMimeMapping(path));
@@ -167,8 +167,13 @@ namespace Cortex.CMS {
                 else if(request.HttpMethod == "GET") {
                     PageRequestClient client = new PageRequestClient(context);
 
+                    DateTime launchDateTime = new DateTime(2022, 04, 01);
+
                     if(Links.ContainsKey(file.Substring(1))) {
                         context.Response.Redirect(Links[file.Substring(1)]);
+                    }
+                    else if(launchDateTime > DateTime.Now && client.User.Guest && !file.StartsWith("/launch")) {
+                        context.Response.Redirect("/launch");
                     }
                     else if(file == "/logout") {
                         context.Response.Headers.Add("Set-Cookie", $"key=null; expires={DateTime.UtcNow.ToString("dddd, dd-MM-yyyy hh:mm:ss GMT")}; path=/");
