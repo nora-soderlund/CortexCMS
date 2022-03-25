@@ -25,6 +25,7 @@ namespace Cortex.CMS.Pages {
             { "/hotel/lockdown", new User.Hotel.Lockdown() },
             
             { "/launch", new Guest.Launch() },
+            { "/launch/login", new Guest.Launch.Login() },
 
             { "/404", new Errors.Error404() },
 

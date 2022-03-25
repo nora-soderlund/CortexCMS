@@ -1,5 +1,12 @@
 @import "../App/App/Fonts";
 
+@import "../App/App/Components/Buttons";
+@import "../App/App/Components/Inputs";
+
+* {
+    box-sizing: border-box;
+}
+
 html, body {
     min-height: 100vh;
 }
@@ -52,10 +59,12 @@ h2 {
             display: inline-block;
         }
     }
-
-    p {
-        max-width: fit-content;
-    }
 }
 
+#login {
+    margin: 32px 0;
 
+    input, button {
+        width: 100%;
+    }
+}
