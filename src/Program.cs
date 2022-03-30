@@ -146,12 +146,22 @@ namespace Cortex.CMS {
                 if(File.Exists(path)) {
                     Respond(context, File.ReadAllBytes(path), MimeMapping.MimeUtility.GetMimeMapping(path));
                 }
+                else if(file == "/manifest.json") {
+                    Respond(context, Encoding.UTF8.GetBytes(Config["client"]["public"].ToString()), "application/json");
+                }
+                else if(file == "/scripts.json" && Config["client"]["public"]["version"].ToString() == "debug") {
+                    Config = JObject.Parse(File.ReadAllText("C:/Cortex/Cortex.json"));
+
+                    Respond(context, Encoding.UTF8.GetBytes(Config["client"]["scripts"].ToString()), "application/json");
+                }
                 else if(file.LastIndexOf('.') != -1) {
                     if(file.StartsWith("/hotel/")) {
                         PageRequestClient client = new PageRequestClient(context);
 
                         if(!client.User.Guest/* && client.User.Verified && client.User.BETA*/) {
-                            path = Path.Combine(new string[] { (string)Program.Config["cms"]["directories"]["client"], file.Trim('/').Replace("hotel/", "").Replace('/', '\\') });
+                            string result = file.Substring(6).Trim('/').Replace('/', '\\');
+
+                            path = Path.Combine(new string[] { (string)Program.Config["cms"]["directories"]["client"], result });
 
                             Respond(context, File.ReadAllBytes(path), MimeMapping.MimeUtility.GetMimeMapping(path));
                         }
