@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using System.Linq;
 using System.Collections.Generic;
@@ -11,7 +12,9 @@ namespace Cortex.CMS.Pages.Guest {
         }
         
         public string GetBody(PageRequestClient client) {
-            return PageManager.Get(client, "Pages/launch.html", new Dictionary<string, string>());
+            return PageManager.Get(client, "Pages/launch.html", new Dictionary<string, string>() {
+                { "launch", ((int)(new DateTime(2022, 04, 07).Subtract(DateTime.Now)).TotalSeconds).ToString() }
+            });
         }
 
         public bool GetAccess(PageRequestClient client) {

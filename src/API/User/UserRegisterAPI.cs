@@ -22,7 +22,7 @@ namespace Cortex.CMS.API.User {
         }
 
         public object Evaluate(HttpListenerContext context, string method, string body) {
-            DateTime launchDateTime = new DateTime(2022, 04, 01);
+            DateTime launchDateTime = new DateTime(2022, 04, 07);
 
             if(launchDateTime > DateTime.Now)
                 return null;

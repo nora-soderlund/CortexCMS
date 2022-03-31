@@ -1,31 +1,28 @@
-
-
-
-const launchDate = new Date("2022-04-01").getTime();
+let launch = document.getElementById("launch-input").value;
 
 setInterval(test = () => {
     const date = Date.now();
+
+    let seconds = launch;
     
-    let difference = launchDate - date;
-    
-    const days = Math.floor(difference / 1000 / 60 / 60 / 24);
+    const days = Math.floor(seconds / 60 / 60 / 24);
     document.getElementById("launch-days").innerText = days;
     
-    difference -= days * 24 * 60 * 60 * 1000;
+    seconds -= days * 24 * 60 * 60;
     
-    const hours = Math.floor(difference / 1000 / 60 / 60);
+    const hours = Math.floor(seconds / 60 / 60);
     document.getElementById("launch-hours").innerText = hours;
     
-    difference -= hours * 60 * 60 * 1000;
+    seconds -= hours * 60 * 60;
     
-    const minutes = Math.floor(difference / 1000 / 60);
+    const minutes = Math.floor(seconds / 60);
     document.getElementById("launch-minutes").innerText = minutes;
     
-    difference -= minutes * 60 * 1000;
+    seconds -= minutes * 60;
     
-    
-    const seconds = Math.floor(difference / 1000);
-    document.getElementById("launch-seconds").innerText = seconds;
+    document.getElementById("launch-seconds").innerText = Math.floor(seconds);
+
+    launch--;
 }, 1000);
 
 test();

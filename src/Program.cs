@@ -177,7 +177,7 @@ namespace Cortex.CMS {
                 else if(request.HttpMethod == "GET") {
                     PageRequestClient client = new PageRequestClient(context);
 
-                    DateTime launchDateTime = new DateTime(2022, 04, 01);
+                    DateTime launchDateTime = new DateTime(2022, 04, 07);
 
                     if(Links.ContainsKey(file.Substring(1))) {
                         context.Response.Redirect(Links[file.Substring(1)]);
