@@ -19,7 +19,6 @@ C:\Cortex\Cortex.CMS\bin\Debug\net5.0\win-x64\Microsoft.Win32.SystemEvents.dll
 C:\Cortex\Cortex.CMS\bin\Debug\net5.0\win-x64\MimeMapping.dll
 C:\Cortex\Cortex.CMS\bin\Debug\net5.0\win-x64\MySql.Data.dll
 C:\Cortex\Cortex.CMS\bin\Debug\net5.0\win-x64\Ubiety.Dns.Core.dll
-C:\Cortex\Cortex.CMS\bin\Debug\net5.0\win-x64\Zstandard.Net.dll
 C:\Cortex\Cortex.CMS\bin\Debug\net5.0\win-x64\Newtonsoft.Json.dll
 C:\Cortex\Cortex.CMS\bin\Debug\net5.0\win-x64\System.Configuration.ConfigurationManager.dll
 C:\Cortex\Cortex.CMS\bin\Debug\net5.0\win-x64\System.Drawing.Common.dll
@@ -252,3 +251,4 @@ C:\Cortex\Cortex.CMS\obj\Debug\net5.0\win-x64\ref\Cortex.CMS.dll
 C:\Cortex\Cortex.CMS\obj\Debug\net5.0\win-x64\Cortex.CMS.pdb
 C:\Cortex\Cortex.CMS\obj\Debug\net5.0\win-x64\Cortex.CMS.genruntimeconfig.cache
 C:\Cortex\Cortex.CMS\bin\Debug\net5.0\win-x64\mscordaccore_amd64_amd64_5.0.1321.56516.dll
+C:\Cortex\Cortex.CMS\bin\Debug\net5.0\win-x64\ZstdNet.dll

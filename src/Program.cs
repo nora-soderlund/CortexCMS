@@ -87,6 +87,12 @@ namespace Cortex.CMS {
                             Links.Add(reader.GetString("key"), reader.GetString("redirect"));
                         }
                     }
+
+                    using(MySqlCommand command = new MySqlCommand("SELECT * FROM users WHERE name = @name", connection)) {
+                        command.Parameters.AddWithValue("name", "Cake");
+                        
+                        using MySqlDataReader reader = command.ExecuteReader();
+                    }
                 }
 
                 Logs.WriteConsole("Starting to listen to connections to:");
