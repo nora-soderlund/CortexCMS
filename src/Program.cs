@@ -31,6 +31,8 @@ namespace Cortex.CMS {
 
         public static string Database;
 
+        public static DateTime Launch = new DateTime(2022, 04, 07, 15, 00, 00);
+
         public static JsonSerializerSettings JSON = new JsonSerializerSettings() {
             ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() }
         };
@@ -183,12 +185,10 @@ namespace Cortex.CMS {
                 else if(request.HttpMethod == "GET") {
                     PageRequestClient client = new PageRequestClient(context);
 
-                    DateTime launchDateTime = new DateTime(2022, 04, 07);
-
                     if(Links.ContainsKey(file.Substring(1))) {
                         context.Response.Redirect(Links[file.Substring(1)]);
                     }
-                    else if(launchDateTime > DateTime.Now && client.User.Guest && !file.StartsWith("/launch")) {
+                    else if(Program.Launch > DateTime.Now && client.User.Guest && !file.StartsWith("/launch")) {
                         context.Response.Redirect("/launch");
                     }
                     else if(file == "/logout") {

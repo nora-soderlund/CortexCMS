@@ -13,7 +13,7 @@ namespace Cortex.CMS.Pages.Guest {
         
         public string GetBody(PageRequestClient client) {
             return PageManager.Get(client, "Pages/launch.html", new Dictionary<string, string>() {
-                { "launch", ((int)(new DateTime(2022, 04, 07).Subtract(DateTime.Now)).TotalSeconds).ToString() }
+                { "launch", ((int)(Program.Launch.Subtract(DateTime.Now)).TotalSeconds).ToString() }
             });
         }
 
