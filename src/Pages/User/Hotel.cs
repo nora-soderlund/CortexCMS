@@ -14,8 +14,7 @@ namespace Cortex.CMS.Pages.User {
         
         public string GetBody(PageRequestClient client) {
             return PageManager.Get(client, "Pages/hotel.html", new Dictionary<string, string>() {
-                { "key", client.User.Key },
-                { "time", DateTime.Now.Ticks.ToString() }
+                { "key", client.User.Key }
             });
         }
 
