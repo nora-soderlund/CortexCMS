@@ -1,5 +1,7 @@
 using System.Net;
 using System.Linq;
+using System.Globalization;
+using System;
 using System.Collections.Generic;
 
 using MySql.Data.MySqlClient;
@@ -12,7 +14,8 @@ namespace Cortex.CMS.Pages.User {
         
         public string GetBody(PageRequestClient client) {
             return PageManager.Get(client, "Pages/hotel.html", new Dictionary<string, string>() {
-                { "key", client.User.Key }
+                { "key", client.User.Key },
+                { "time", DateTime.Now.Ticks.ToString() }
             });
         }
 
